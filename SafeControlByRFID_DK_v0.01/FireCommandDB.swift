@@ -20,6 +20,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
     }
     
     // delegate 來的 func
+    // TODO: 暫時沒用，待修
     func getPhotoPath(photoPath: URL) {
         firemanPhotoPath = photoPath
     }
