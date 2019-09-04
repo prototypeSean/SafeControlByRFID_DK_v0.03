@@ -293,6 +293,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="132-Sg-hnt">
+                                <rect key="frame" x="702" y="70" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="m6O-Dy-9R6" kind="show" id="75P-1R-Khh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -336,6 +344,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lK6-6T-cIL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="85.611510791366911" y="-6.4748201438848927"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Y0C-Fx-4nt">
+            <objects>
+                <viewController id="m6O-Dy-9R6" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cyM-LD-pSd">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="i8L-Lg-24L"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rMx-4J-hHO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="820" y="88"/>
         </scene>
         <!--Safe Controll Log Page View Controller-->
         <scene sceneID="Ao5-fI-KTF">
