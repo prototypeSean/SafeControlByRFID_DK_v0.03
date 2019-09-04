@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+// 第一次收到收到RFID要把人放到清單上 第二次要移除
 class SafeControlViewController: UIViewController, BluetoothModelDelegate {
     
     var firecommandDB: FirecommandDatabase!

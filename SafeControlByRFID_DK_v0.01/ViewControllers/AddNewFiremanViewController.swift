@@ -19,7 +19,7 @@ import UIKit
 //table_FIREMAN_RFIDUUID = Expression<String>("firemanRFID")
 //table_FIREMAN_DEPARTMENT = Expression<String>("firemanDepartment")
 
-
+// TODO: 寫進資料庫的錯誤處理還沒做
 class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
     
     var imagePicker: ImagePicker!
@@ -33,18 +33,14 @@ class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
     @IBOutlet weak var firemanCallSign: UITextField!
     @IBOutlet weak var firemanDepartment: UITextField!
     
-    
-
-    
     @IBAction func saveToDB(_ sender: Any) {
-        // 暫時的假資料
         fireCommandDB!.addNewFireman(
-            serialNumber: "serialNumber.text!",
-            firemanName: "fireManName.text!",
+            serialNumber: serialNumber.text!,
+            firemanName: fireManName.text!,
             firemanPhoto: self.firemanAvatar.image!,
-            firemanCallsign: "firemanCallSign.text!",
-            firemanRFID: "fireManRFID.text!",
-            firemanDepartment: "firemanDepartment.text!")
+            firemanCallsign: firemanCallSign.text!,
+            firemanRFID: fireManRFID.text!,
+            firemanDepartment: firemanDepartment.text!)
     }
     @IBAction func printDB(_ sender: Any) {
         fireCommandDB?.allFireman()
@@ -63,10 +59,10 @@ class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
         BluetoothModel.singletion.delegate = self
         
         self.imagePicker = ImagePicker(presentationController: self, delegate: self)
-        
+        // 這邊把資料庫實體化（連線）用來把資料存進 DB
         fireCommandDB = FirecommandDatabase()
         
-        fireManRFID.text = "RFID1234"
+        // 暫時的 之後要做鍵盤跟ＲＦＩＤ
         fireManName.text = "這是姓名"
         serialNumber.text = "序號AA2234"
         firemanCallSign.text = "隊員呼號222"
@@ -94,8 +90,14 @@ class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
 }
 
 // 吃下 ImagePickerDelegate 來顯示它拍攝或選擇的照片
-extension AddNewFiremanViewController: ImagePickerDelegate {
+extension AddNewFiremanViewController: CustomImagePickerDelegate {
     func didSelect(image: UIImage?) {
         self.firemanAvatar.image = image
     }
 }
+
+//extension AddNewFiremanViewController: PhotoPathJustSaved{
+//    func getPhotoPath(photoPath: URL) {
+//
+//    }
+//}

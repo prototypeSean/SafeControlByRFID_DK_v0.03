@@ -47,7 +47,7 @@ class PhotoManager: NSObject {
                 try data.write(to: imageUrl)
                 print("照片儲存成功")
                 return imageUrl
-//                self.delegate?.getPhotoPath(photoPath: imageUrl)
+                self.delegate?.getPhotoPath(photoPath: imageUrl)
             } catch {
                 print("error saving", error)
             }

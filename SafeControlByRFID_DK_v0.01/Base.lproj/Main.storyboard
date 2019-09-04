@@ -284,7 +284,6 @@
                                 </state>
                                 <connections>
                                     <action selector="printDB:" destination="iGh-xc-vsU" eventType="touchUpInside" id="jAV-Th-YY0"/>
-                                    <action selector="saveToDB:" destination="iGh-xc-vsU" eventType="touchUpInside" id="PXG-0J-Cg9"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="82P-dG-mWZ">

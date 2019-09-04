@@ -10,7 +10,7 @@
 import UIKit
 
 
-public protocol ImagePickerDelegate: class {
+public protocol CustomImagePickerDelegate: class {
     func didSelect(image: UIImage?)
 }
 
@@ -19,17 +19,17 @@ open class ImagePicker: NSObject {
     
     private let pickerController: UIImagePickerController
     private weak var presentationController: UIViewController?
-    private weak var delegate: ImagePickerDelegate?
-    
-    public init(presentationController: UIViewController, delegate: ImagePickerDelegate) {
+    private weak var delegate: CustomImagePickerDelegate?
+    public init(presentationController: UIViewController, delegate: CustomImagePickerDelegate) {
         self.pickerController = UIImagePickerController()
         
         super.init()
-        
+        // 要告訴 Picker 從哪邊跳出視窗
         self.presentationController = presentationController
         self.delegate = delegate
         
         self.pickerController.delegate = self
+        // 這裡如果是true 之後在delegate的func中就要用.editedImage 而不是.originalImage
         self.pickerController.allowsEditing = true
         self.pickerController.mediaTypes = ["public.image"]
     }
@@ -94,6 +94,7 @@ extension ImagePicker: UIImagePickerControllerDelegate {
     }
 }
 
+// 因為self.pickerController.delegate = self, 而 UIImagePickerController 的 delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)? { get set }
 extension ImagePicker: UINavigationControllerDelegate {
-    
+
 }
