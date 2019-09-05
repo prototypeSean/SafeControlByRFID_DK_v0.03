@@ -11,6 +11,11 @@
 		191EBB9A231DF9310040D1BE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB99231DF9310040D1BE /* ImagePicker.swift */; };
 		191EBB9C231E0E7A0040D1BE /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */; };
 		192008A5231FB0E300BF4179 /* BravoSquadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A4231FB0E300BF4179 /* BravoSquadViewController.swift */; };
+		192008AC23209AE700BF4179 /* BravoSquadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */; };
+		192008AD23209AE700BF4179 /* BarLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A823209AE600BF4179 /* BarLeftView.swift */; };
+		192008AE23209AE700BF4179 /* FiremanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */; };
+		192008AF23209AE700BF4179 /* SafeControllController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008AA23209AE600BF4179 /* SafeControllController.swift */; };
+		192008B023209AE700BF4179 /* SafeControllModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008AB23209AE700BF4179 /* SafeControllModel.swift */; };
 		1978EF512318E88D00AC3707 /* SafeControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1978EF502318E88D00AC3707 /* SafeControlViewController.swift */; };
 		1978EF532318F66900AC3707 /* FireCommandDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1978EF522318F66900AC3707 /* FireCommandDB.swift */; };
 		19AD97BE23161D3000E9B99B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AD97BD23161D3000E9B99B /* AppDelegate.swift */; };
@@ -27,6 +32,11 @@
 		191EBB99231DF9310040D1BE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
 		192008A4231FB0E300BF4179 /* BravoSquadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BravoSquadViewController.swift; sourceTree = "<group>"; };
+		192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BravoSquadTableViewCell.swift; sourceTree = "<group>"; };
+		192008A823209AE600BF4179 /* BarLeftView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLeftView.swift; sourceTree = "<group>"; };
+		192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiremanCollectionViewCell.swift; sourceTree = "<group>"; };
+		192008AA23209AE600BF4179 /* SafeControllController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeControllController.swift; sourceTree = "<group>"; };
+		192008AB23209AE700BF4179 /* SafeControllModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeControllModel.swift; sourceTree = "<group>"; };
 		1978EF502318E88D00AC3707 /* SafeControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeControlViewController.swift; sourceTree = "<group>"; };
 		1978EF522318F66900AC3707 /* FireCommandDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireCommandDB.swift; sourceTree = "<group>"; };
 		19AD97BA23161D3000E9B99B /* SafeControlByRFID_DK_v0.01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeControlByRFID_DK_v0.01.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +83,16 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		192008A623209AE600BF4179 /* BravoSquadTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */,
+				192008A823209AE600BF4179 /* BarLeftView.swift */,
+				192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */,
+			);
+			path = BravoSquadTableViewCell;
+			sourceTree = "<group>";
+		};
 		19AD97B123161D3000E9B99B = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +114,9 @@
 		19AD97BC23161D3000E9B99B /* SafeControlByRFID_DK_v0.01 */ = {
 			isa = PBXGroup;
 			children = (
+				192008A623209AE600BF4179 /* BravoSquadTableViewCell */,
+				192008AA23209AE600BF4179 /* SafeControllController.swift */,
+				192008AB23209AE700BF4179 /* SafeControllModel.swift */,
 				191EBB98231DF8DE0040D1BE /* Tools */,
 				191EBB95231D0D3B0040D1BE /* ViewControllers */,
 				19AD97BD23161D3000E9B99B /* AppDelegate.swift */,
@@ -223,14 +246,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				19AD97C623161D3000E9B99B /* SafeControlByRFID_DK_v0_01.xcdatamodeld in Sources */,
+				192008B023209AE700BF4179 /* SafeControllModel.swift in Sources */,
 				1978EF532318F66900AC3707 /* FireCommandDB.swift in Sources */,
 				191EBB9C231E0E7A0040D1BE /* PhotoManager.swift in Sources */,
+				192008AE23209AE700BF4179 /* FiremanCollectionViewCell.swift in Sources */,
 				19AD97D323162A9200E9B99B /* BluetoothModel.swift in Sources */,
+				192008AF23209AE700BF4179 /* SafeControllController.swift in Sources */,
 				191EBB9A231DF9310040D1BE /* ImagePicker.swift in Sources */,
+				192008AC23209AE700BF4179 /* BravoSquadTableViewCell.swift in Sources */,
 				1978EF512318E88D00AC3707 /* SafeControlViewController.swift in Sources */,
 				191EBB97231D0DD90040D1BE /* AddNewFiremanViewController.swift in Sources */,
 				192008A5231FB0E300BF4179 /* BravoSquadViewController.swift in Sources */,
 				19AD97BE23161D3000E9B99B /* AppDelegate.swift in Sources */,
+				192008AD23209AE700BF4179 /* BarLeftView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

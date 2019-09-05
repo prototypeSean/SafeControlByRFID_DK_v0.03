@@ -33,6 +33,8 @@ class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
     @IBOutlet weak var firemanCallSign: UITextField!
     @IBOutlet weak var firemanDepartment: UITextField!
     
+    var firemanTimeStamp:String?
+    
     @IBAction func saveToDB(_ sender: Any) {
         fireCommandDB!.addNewFireman(
             serialNumber: serialNumber.text!,
@@ -40,6 +42,7 @@ class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
             firemanPhoto: self.firemanAvatar.image!,
             firemanCallsign: firemanCallSign.text!,
             firemanRFID: fireManRFID.text!,
+            firemanTimeStamp: firemanTimeStamp!,
             firemanDepartment: firemanDepartment.text!)
     }
     @IBAction func printDB(_ sender: Any) {
@@ -67,6 +70,8 @@ class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
         serialNumber.text = "序號AA2234"
         firemanCallSign.text = "隊員呼號222"
         firemanDepartment.text = "隊員所屬分隊"
+        firemanTimeStamp = "16:05:44"
+        
     }
     
     // 收到 RFID 之後顯示在 label.text

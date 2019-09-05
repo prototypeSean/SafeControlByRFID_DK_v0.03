@@ -5,19 +5,15 @@
 //  Created by DennisKao on 2019/8/30.
 //  Copyright © 2019 DennisKao. All rights reserved.
 //
+// 人員管制的首頁 臨時版
 
 import UIKit
 // 第一次收到收到RFID要把人放到清單上 第二次要移除
+// 這裡的資料靠 SafeControlModel 提供
 class SafeControlViewController: UIViewController, BluetoothModelDelegate {
     
     var firecommandDB: FirecommandDatabase!
-    
-    
-//    @IBAction func addFireManBtn(_ sender: Any) {
-//        firecommandDB.addNewFireman(serialNumber: 65536, firemanName: "某某某", firemanCallsign: "謝謝你9527", firemanRFID: "123123", firemanDepartment: "第三新東京大隊")
-//    }
-    
-    
+
     @IBOutlet weak var SafeControlTableView: UITableView!
     func didReciveRFIDDate(uuid: String) {
         print("收到RFID Data ＝ \(uuid)")
