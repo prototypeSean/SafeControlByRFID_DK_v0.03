@@ -83,7 +83,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
         // 要生成資料庫的時候才把照片存入本地
         let path = photoManager!.saveImageToDocumentDirectory(image: firemanPhoto, filename: firemanRFID)
         
-        // 有空再處理TODO:-- 這行對應上面的暫時沒用,有空再處理 存好之後把 URL 傳入這裡的變數
+        // 有空再處理TODO:-- 這行對應上面的暫時沒用,有空再處理（存好之後把 URL 傳入此處變數）
         photoManager?.delegate=self
         
         

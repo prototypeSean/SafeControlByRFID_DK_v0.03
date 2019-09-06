@@ -10,10 +10,12 @@
 import UIKit
 // 第一次收到收到RFID要把人放到清單上 第二次要移除
 // 這裡的資料靠 SafeControlModel 提供
-class SafeControlViewController: UIViewController, BluetoothModelDelegate {
+class SafeControlViewController: UIViewController{
     
     var firecommandDB: FirecommandDatabase!
 
+    let model = SafeControllModel()
+    
     @IBOutlet weak var SafeControlTableView: UITableView!
     func didReciveRFIDDate(uuid: String) {
         print("收到RFID Data ＝ \(uuid)")
@@ -21,10 +23,14 @@ class SafeControlViewController: UIViewController, BluetoothModelDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        BluetoothModel.singletion.delegate = self
+//        BluetoothModel.singletion.delegate = self
         // 建立DB連線
         firecommandDB = FirecommandDatabase()
         firecommandDB.createTableFireman()
+        
+        SafeControlTableView.delegate = self
+        SafeControlTableView.dataSource = self
+        model.delegate = self
         
         
     }
@@ -40,4 +46,27 @@ class SafeControlViewController: UIViewController, BluetoothModelDelegate {
     }
     */
 
+}
+
+extension SafeControlViewController:UITableViewDelegate,UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return model.getBravoSquads().count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BravoSquadTableViewCell") as! BravoSquadTableViewCell
+        let bravoSquad = model.getBravoSquads()[indexPath.row]
+        cell.setBravoSquad(bravoSquad: bravoSquad)
+        cell.selectionStyle = .none
+        return cell
+    }
+}
+
+extension SafeControlViewController:SafeControllModelDelegate{
+    func dataDidUpdate() {
+        DispatchQueue.main.async { [weak self] in
+            self?.SafeControlTableView.reloadData()
+        }
+    }
 }

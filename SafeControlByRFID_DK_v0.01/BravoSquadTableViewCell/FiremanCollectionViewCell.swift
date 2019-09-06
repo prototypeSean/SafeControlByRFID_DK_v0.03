@@ -42,7 +42,8 @@ class FiremanCollectionViewCell:UICollectionViewCell{
         dateFormater.dateFormat = "HH:mm:ss"
         
         // TODO:-- 這邊不太確定轉得對不對 DB存的已經是純文字應該不需要這麼麻煩
-        // 把字串轉成Date
+        // 把字串轉成Date -->再轉成1970-->運算
+        //              -->轉成需要的文字格式
         let dateString = dateFormater.date(from: fireman!.timestamp)
         // 把 Date 傳成時間戳格式
         let dateTimeStamp  = dateString!.timeIntervalSince1970

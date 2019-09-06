@@ -14,8 +14,6 @@ protocol SafeControllModelDelegate{
     func dataDidUpdate()
 }
 
-// TODO:-- 之後要改成DB
-
 
 // 顯示用的小隊：陣列<消防員>
 struct BravoSquad {
@@ -92,6 +90,7 @@ extension SafeControllModel{
 // delegate from bluetooth 收到藍牙傳來的UUID 就新增或移除人員,然後再給兩個ＶＣ一根旗子讓他們刷新頁面
 extension SafeControllModel:BluetoothModelDelegate{
     func didReciveRFIDDate(uuid: String) {
+        print("收到RFID:--處理中")
         // 如果移除失敗就新增 如果移除成功就會遇到return跳出迴圈
         if !removeFireman(by: uuid){
             if(!addFireman(by: uuid)){
