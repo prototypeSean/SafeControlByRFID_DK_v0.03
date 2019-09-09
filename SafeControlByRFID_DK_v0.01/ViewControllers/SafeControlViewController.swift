@@ -5,7 +5,7 @@
 //  Created by DennisKao on 2019/8/30.
 //  Copyright © 2019 DennisKao. All rights reserved.
 //
-// 人員管制的首頁 臨時版
+// 人員管制的首頁
 
 import UIKit
 // 第一次收到收到RFID要把人放到清單上 第二次要移除
@@ -16,26 +16,34 @@ class SafeControlViewController: UIViewController{
 
     let model = SafeControllModel()
     
-    @IBOutlet weak var SafeControlTableView: UITableView!
-    func didReciveRFIDDate(uuid: String) {
-        print("收到RFID Data ＝ \(uuid)")
+    let ccc = BravoSquadTableViewCell()
+    @IBAction func add1fm(_ sender: Any) {
+        print("加加")
+        ccc.ppp += 1
     }
     
+    @IBOutlet weak var SafeControlTableView: UITableView!
+    
+//    func didReciveRFIDDate(uuid: String) {
+//        print("收到RFID Data ＝ \(uuid)")
+//    }
+    override func viewWillAppear(_ animated: Bool) {
+        SafeControlTableView.delegate = self
+        SafeControlTableView.dataSource = self
+        model.delegate = self
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 //        BluetoothModel.singletion.delegate = self
         // 建立DB連線
         firecommandDB = FirecommandDatabase()
         firecommandDB.createTableFireman()
-        
-        SafeControlTableView.delegate = self
-        SafeControlTableView.dataSource = self
-        model.delegate = self
-        
-        
     }
-    
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as! AddNewFiremanViewController
+        destination.setupModel(model: model)
+    }
     /*
     // MARK: - Navigation
 
@@ -45,7 +53,6 @@ class SafeControlViewController: UIViewController{
         // Pass the selected object to the new view controller.
     }
     */
-
 }
 
 extension SafeControlViewController:UITableViewDelegate,UITableViewDataSource{
@@ -67,6 +74,7 @@ extension SafeControlViewController:SafeControllModelDelegate{
     func dataDidUpdate() {
         DispatchQueue.main.async { [weak self] in
             self?.SafeControlTableView.reloadData()
+            print("更新資料by Model delegate & 已執行 -- reloadData")
         }
     }
 }

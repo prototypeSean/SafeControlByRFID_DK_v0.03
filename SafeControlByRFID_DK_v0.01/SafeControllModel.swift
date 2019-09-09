@@ -14,7 +14,9 @@ protocol SafeControllModelDelegate{
     func dataDidUpdate()
 }
 
-
+protocol SafeControldelegateforAddNewFireman{
+    func newFiremanRFID(uuid:String)
+}
 // 顯示用的小隊：陣列<消防員>
 struct BravoSquad {
     var fireMans:Array<FiremanForBravoSquad>
@@ -43,6 +45,7 @@ class SafeControllModel:NSObject{
     // 資料更新的時候用的旗子
     var delegate:SafeControllModelDelegate?
     var delegateForLog:SafeControllModelDelegate?
+    var delegateForAddFireman:SafeControldelegateforAddNewFireman?
     
     /// - Parameters uuid uuid of rfid card
     /// - Returns true if did remove someone
@@ -100,5 +103,6 @@ extension SafeControllModel:BluetoothModelDelegate{
         sortLogData()
         delegate?.dataDidUpdate()
         delegateForLog?.dataDidUpdate()
+        delegateForAddFireman?.newFiremanRFID(uuid: uuid)
     }
 }

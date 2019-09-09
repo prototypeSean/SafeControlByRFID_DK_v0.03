@@ -21,5 +21,21 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "SafeControlViewController.viewDidLoad():SafeControlViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "BluetoothModel.singletion.delegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AddNewFiremanViewController.viewDidLoad():AddNewFiremanViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "BluetoothModel.singletion.delegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

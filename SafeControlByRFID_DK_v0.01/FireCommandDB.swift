@@ -119,14 +119,18 @@ class FirecommandDatabase:PhotoPathJustSaved {
     
     
 
-    // 用 RFIDUUID 來找從資料庫撈取消防員
+    // 用 RFIDUUID 來找從資料庫撈安管頁面需要的部分消防員資料
     func getFiremanforBravoSquad(by uuid:String) -> FiremanForBravoSquad?{
         do{
             let fireman = Table("table_FIREMAN")
+            
+            
             // 幾乎都是sqlite.swift提供的語法，目的是用UUID找出對應的消防員
             for fm in try db.prepare(fireman.where(table_FIREMAN_RFIDUUID == uuid)){
-                print("取出的人員\(fm[table_FIREMAN_NAME])\n,RFID:\(fm[table_FIREMAN_RFIDUUID])\n,時間戳:\(fm[table_FIREMAN_TIMESTAMP])")
-                return FiremanForBravoSquad(name: fm[table_FIREMAN_NAME], uuid: fm[table_FIREMAN_RFIDUUID], timestamp: fm[table_FIREMAN_TIMESTAMP])
+                photoManager = PhotoManager()
+                let imageFromlocalPath = photoManager?.loadImageFromDocumentDirectory(filename: fm[table_FIREMAN_RFIDUUID]) ?? UIImage(named: "ImageInApp")!
+            print("取出的BravoSquad人員:\(fm[table_FIREMAN_NAME]),\nRFID:\(fm[table_FIREMAN_RFIDUUID]),\n時間戳:\(fm[table_FIREMAN_TIMESTAMP]),\n照片路徑:\(fm[table_FIREMAN_PHOTO_PATH]),")
+                return FiremanForBravoSquad(name: fm[table_FIREMAN_NAME], uuid: fm[table_FIREMAN_RFIDUUID], timestamp: fm[table_FIREMAN_TIMESTAMP], image: imageFromlocalPath)
             }
         }catch{
             print("取出FiremanforBravoSquad錯誤\(error)")
@@ -141,4 +145,5 @@ struct FiremanForBravoSquad {
     let name:String
     let uuid:String
     let timestamp:String
+    let image:UIImage
 }

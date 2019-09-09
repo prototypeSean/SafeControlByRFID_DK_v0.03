@@ -19,6 +19,8 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     let barMaxTime:Double = 30
     
     override func awakeFromNib() {
+        // cell的圓角
+        self.layer.cornerRadius = 3.0
         super.awakeFromNib()
         self.backgroundColor = LifeCircleColor.normal.getUIColor()
         countDown()
@@ -35,7 +37,7 @@ class FiremanCollectionViewCell:UICollectionViewCell{
             return
         }
         self.nameLable.text = fireman!.name
-        self.photo.image = UIImage(named: fireman!.uuid)
+        self.photo.image = fireman!.image
         
         // 這裡應該是要把時間戳轉成純文字
         let dateFormater:DateFormatter = DateFormatter()

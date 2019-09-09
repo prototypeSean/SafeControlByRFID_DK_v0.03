@@ -62,9 +62,10 @@ class PhotoManager: NSObject {
         let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
         if let dirPath = paths.first{
             let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent("firecommandPhotos/\(filename)")
-            guard let image = UIImage(contentsOfFile: imageURL.path) else { return  UIImage.init(named: "fulcrumPlaceholder")!}
+            guard let image = UIImage(contentsOfFile: imageURL.path) else { return  UIImage.init(named: "ImageInApp")!}
+            print("嘗試讀取照片\(imageURL)")
             return image
         }
-        return UIImage.init(named: "imageDefaultPlaceholder")!
+        return UIImage.init(named: "ImageInApp")!
     }
 }

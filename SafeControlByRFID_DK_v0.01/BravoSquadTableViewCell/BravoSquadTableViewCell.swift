@@ -13,17 +13,29 @@ class BravoSquadTableViewCell:UITableViewCell{
     @IBOutlet weak var firemanCollectionView: UICollectionView!
     private var bravoSquad:BravoSquad?
     
+    @IBOutlet weak var heightOfCollectionView: NSLayoutConstraint!
+    
+    var ppp:Int = 4
+    
+    
     // TODO:-- 沒用xib這行有用？暫時放著不管
-    //
     override func awakeFromNib() {
         super.awakeFromNib()
         firemanCollectionView.delegate = self
         firemanCollectionView.dataSource = self
+        
+        // 讓collectoinView高度自動適應，這邊不知道原理，趕時間以後再研究
+        // https://stackoverflow.com/a/42438709
+        let height:CGFloat = self.firemanCollectionView.collectionViewLayout.collectionViewContentSize.height
+        heightOfCollectionView.constant = height
+        self.firemanCollectionView.layoutIfNeeded()
+        
     }
     
     func setBravoSquad(bravoSquad:BravoSquad){
         self.bravoSquad = bravoSquad
         self.firemanCollectionView.reloadData()
+
         if bravoSquad.fireMans.count > 0{
             // 移到最右邊？
             self.firemanCollectionView.scrollToItem(at: IndexPath(row: bravoSquad.fireMans.count-1, section: 0), at: .right, animated: true)
@@ -35,7 +47,10 @@ class BravoSquadTableViewCell:UITableViewCell{
 extension BravoSquadTableViewCell:UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = self.bravoSquad?.fireMans.count ?? 0
-        return count > 10 ? count:10
+//        return count
+        return ppp
+//        return count > 4 ? count:4
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -48,6 +63,5 @@ extension BravoSquadTableViewCell:UICollectionViewDelegate, UICollectionViewData
         }
         return cell
     }
-    
     
 }

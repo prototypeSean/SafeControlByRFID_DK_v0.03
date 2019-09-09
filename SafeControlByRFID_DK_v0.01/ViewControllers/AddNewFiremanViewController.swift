@@ -20,10 +20,15 @@ import UIKit
 //table_FIREMAN_DEPARTMENT = Expression<String>("firemanDepartment")
 
 // TODO: 寫進資料庫的錯誤處理還沒做
-class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
+// 這邊是由SafeComtrolelr轉跳而來的 要怎麼不跟他搶model的delegate ?
+
+
+class AddNewFiremanViewController: UIViewController {
     
     var imagePicker: ImagePicker!
     var fireCommandDB: FirecommandDatabase?
+    // 遷就而已 這邊之後應該要改掉 只是不想直接用藍芽model
+    private var model: SafeControllModel?
     
     // MARK: IBOutlet區域
     @IBOutlet weak var fireManRFID: UILabel!
@@ -59,7 +64,8 @@ class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        BluetoothModel.singletion.delegate = self
+//        BluetoothModel.singletion.delegate = self
+//        model.delegateForAddFireman = self
         
         self.imagePicker = ImagePicker(presentationController: self, delegate: self)
         // 這邊把資料庫實體化（連線）用來把資料存進 DB
@@ -71,15 +77,19 @@ class AddNewFiremanViewController: UIViewController, BluetoothModelDelegate {
         firemanCallSign.text = "隊員呼號222"
         firemanDepartment.text = "隊員所屬分隊"
         firemanTimeStamp = "16:05:44"
-        
+    }
+    
+    func setupModel(model:SafeControllModel){
+        self.model = model
+        model.delegateForAddFireman = self
     }
     
     // 收到 RFID 之後顯示在 label.text
-    func didReciveRFIDDate(uuid: String) {
-        DispatchQueue.main.async {
-            self.fireManRFID.text=uuid
-        }
-    }
+//    func didReciveRFIDDate(uuid: String) {
+//        DispatchQueue.main.async {
+//            self.fireManRFID.text=uuid
+//        }
+//    }
     
 
     /*
@@ -101,8 +111,21 @@ extension AddNewFiremanViewController: CustomImagePickerDelegate {
     }
 }
 
-//extension AddNewFiremanViewController: PhotoPathJustSaved{
-//    func getPhotoPath(photoPath: URL) {
+extension AddNewFiremanViewController: PhotoPathJustSaved{
+    func getPhotoPath(photoPath: URL) {
+
+    }
+}
+
+//extension AddNewFiremanViewController: BluetoothModelDelegate{
 //
-//    }
 //}
+
+extension AddNewFiremanViewController:SafeControldelegateforAddNewFireman{
+    func newFiremanRFID(uuid: String) {
+        DispatchQueue.main.async{
+            print("新增消防人員頁面的dataDidUpdate")
+            self.fireManRFID.text = uuid
+        }
+    }
+}
