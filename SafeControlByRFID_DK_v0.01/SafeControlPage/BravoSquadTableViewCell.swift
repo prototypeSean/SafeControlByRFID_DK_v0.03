@@ -28,8 +28,6 @@ class BravoSquadTableViewCell:UITableViewCell{
         let height:CGFloat = self.firemanCollectionView.collectionViewLayout.collectionViewContentSize.height
         heightOfCollectionView.constant = height
         self.firemanCollectionView.layoutIfNeeded()
-        
-        
     }
     
     
@@ -63,7 +61,7 @@ extension BravoSquadTableViewCell:UICollectionViewDelegate, UICollectionViewData
         let count = self.bravoSquad?.fireMans.count ?? 0
 //        return count
         return ppp.count
-//        return count > 14 ? count:14
+//        return count > 5 ? count:5
         
     }
     

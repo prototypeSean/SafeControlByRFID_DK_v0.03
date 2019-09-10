@@ -78,8 +78,9 @@ class AddNewFiremanViewController: UIViewController {
         firemanDepartment.text = "隊員所屬分隊"
         firemanTimeStamp = "16:05:44"
     }
-    
+///    轉跳過來的時候 把SafeControlVC的 Model借過來掛上delegate
     func setupModel(model:SafeControllModel){
+        /// 這裡的self.model這裡的是private只能在這邊用
         self.model = model
         model.delegateForAddFireman = self
     }

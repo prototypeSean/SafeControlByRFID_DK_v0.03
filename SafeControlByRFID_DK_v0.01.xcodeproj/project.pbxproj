@@ -60,13 +60,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		191EBB95231D0D3B0040D1BE /* ViewControllers */ = {
+		191EBB95231D0D3B0040D1BE /* RegisterPage */ = {
 			isa = PBXGroup;
 			children = (
-				1978EF502318E88D00AC3707 /* SafeControlViewController.swift */,
 				191EBB96231D0DD90040D1BE /* AddNewFiremanViewController.swift */,
 			);
-			path = ViewControllers;
+			path = RegisterPage;
 			sourceTree = "<group>";
 		};
 		191EBB98231DF8DE0040D1BE /* Tools */ = {
@@ -78,14 +77,32 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		192008A623209AE600BF4179 /* BravoSquadTableViewCell */ = {
+		192008A623209AE600BF4179 /* SafeControlPage */ = {
 			isa = PBXGroup;
 			children = (
+				192008AB23209AE700BF4179 /* SafeControllModel.swift */,
+				1978EF502318E88D00AC3707 /* SafeControlViewController.swift */,
 				192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */,
-				192008A823209AE600BF4179 /* BarLeftView.swift */,
 				192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */,
+				192008A823209AE600BF4179 /* BarLeftView.swift */,
 			);
-			path = BravoSquadTableViewCell;
+			path = SafeControlPage;
+			sourceTree = "<group>";
+		};
+		192AA63D2327DD16002ED806 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				19AD97D223162A9200E9B99B /* BluetoothModel.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		192AA63E2327DD40002ED806 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				1978EF522318F66900AC3707 /* FireCommandDB.swift */,
+			);
+			path = DataBase;
 			sourceTree = "<group>";
 		};
 		19AD97B123161D3000E9B99B = {
@@ -109,13 +126,12 @@
 		19AD97BC23161D3000E9B99B /* SafeControlByRFID_DK_v0.01 */ = {
 			isa = PBXGroup;
 			children = (
-				192008A623209AE600BF4179 /* BravoSquadTableViewCell */,
-				192008AB23209AE700BF4179 /* SafeControllModel.swift */,
+				192AA63E2327DD40002ED806 /* DataBase */,
+				192AA63D2327DD16002ED806 /* Bluetooth */,
+				192008A623209AE600BF4179 /* SafeControlPage */,
 				191EBB98231DF8DE0040D1BE /* Tools */,
-				191EBB95231D0D3B0040D1BE /* ViewControllers */,
+				191EBB95231D0D3B0040D1BE /* RegisterPage */,
 				19AD97C123161D3000E9B99B /* Main.storyboard */,
-				19AD97D223162A9200E9B99B /* BluetoothModel.swift */,
-				1978EF522318F66900AC3707 /* FireCommandDB.swift */,
 				19AD97BD23161D3000E9B99B /* AppDelegate.swift */,
 				19AD97CC23161D3200E9B99B /* Info.plist */,
 				19AD97C723161D3200E9B99B /* Assets.xcassets */,

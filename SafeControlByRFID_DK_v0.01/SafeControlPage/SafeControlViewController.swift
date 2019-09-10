@@ -6,38 +6,27 @@
 //  Copyright © 2019 DennisKao. All rights reserved.
 //
 // 人員管制的首頁
+// 安管頁面最外層的VC 要吃下兩個協議來使用tableView的func
 
 import UIKit
 // 第一次收到收到RFID要把人放到清單上 第二次要移除
 // 這裡的資料靠 SafeControlModel 提供
 class SafeControlViewController: UIViewController{
-    @IBAction func rere(_ sender: UIButton) {
-        self.SafeControlTableView.beginUpdates()
-        self.SafeControlTableView.endUpdates()
-    }
     
     var firecommandDB: FirecommandDatabase!
 
     let model = SafeControllModel()
     
-    
     @IBOutlet weak var SafeControlTableView: UITableView!
     
-//    func didReciveRFIDDate(uuid: String) {
-//        print("收到RFID Data ＝ \(uuid)")
-//    }
     override func viewWillAppear(_ animated: Bool) {
         SafeControlTableView.delegate = self
         SafeControlTableView.dataSource = self
         model.delegate = self
-//        SafeControlTableView.estimatedRowHeight = 600
-//        SafeControlTableView.rowHeight = UITableView.automaticDimension
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        BluetoothModel.singletion.delegate = self
         // 建立DB連線
         firecommandDB = FirecommandDatabase()
         firecommandDB.createTableFireman()
@@ -46,17 +35,9 @@ class SafeControlViewController: UIViewController{
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination as! AddNewFiremanViewController
+        /// 有點邪門的寫法，因為註冊頁面是child的關係，這樣兩個VC都會收到delegate
         destination.setupModel(model: model)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 
 extension SafeControlViewController:UITableViewDelegate,UITableViewDataSource{
@@ -75,19 +56,27 @@ extension SafeControlViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let cell = tableView.cellForRow(at: indexPath) as? BravoSquadTableViewCell{
+//        if let cell = tableView.cellForRow(at: indexPath) as? BravoSquadTableViewCell{
 //        let bravoSquad = model.getBravoSquads()[indexPath.row]
-        print("condition:\(cell.ppp.count)")
+//        print("condition:\(cell.ppp.count)")
         
-        if cell.ppp.count >= 5 && indexPath.section == 0{
+        var firemansInbravoSquad = model.getBravoSquads()[indexPath.row].fireMans.count
             
-            print("ppp高度高度\(CGFloat(cell.ppp.count*600))")
-            return CGFloat(cell.ppp.count/5*600)
-        }else
-        {
-            return 600
-            }}
-        return 600
+        var rows = firemansInbravoSquad % 5
+        if rows < 1{
+            rows = 1
+            print("有幾行消防員----\(rows)")
+        }
+        return CGFloat(rows*420)
+//        if cell.ppp.count >= 5 && indexPath.section == 0{
+//
+//            print("ppp高度高度\(CGFloat(cell.ppp.count*600))")
+//            return CGFloat(cell.ppp.count/5*600)
+//        }else
+//        {
+//            return 600
+//            }}
+//        return 600
     }
 }
 

@@ -29,7 +29,7 @@ class SafeControllModel:NSObject{
     // 連上資料庫（這邊要用let還是var尚存疑）
     var firemanDB = FirecommandDatabase()
     
-    // 所有的小隊s
+    // 所有的小隊-- 每個小隊一個tableViewCell 每個Cell一個BravoSquad
     private var bravoSquads:Array<BravoSquad> = []
     // 進出紀錄log
     private(set) var logEnter:Array<FiremanForBravoSquad> = []
@@ -47,9 +47,7 @@ class SafeControllModel:NSObject{
     var delegateForLog:SafeControllModelDelegate?
     var delegateForAddFireman:SafeControldelegateforAddNewFireman?
     
-    /// - Parameters uuid uuid of rfid card
-    /// - Returns true if did remove someone
-    // 吃uuid當參數 試著把人從小隊中移出 並寫入 logLeave 中
+    // 吃uuid當參數 試著把人從小隊中移出 並寫入logLeave中，移出成功＝true
     private func removeFireman(by uuid:String) -> Bool{
         // test
         //return false
@@ -63,8 +61,7 @@ class SafeControllModel:NSObject{
         return false
     }
     
-    /// - Parameters uuid uuid of rfid card
-    /// - Returns true if fireman in database
+    // 與移出成對，把消防員加入BravoSquad，加入成功＝true
     private func addFireman(by uuid:String) -> Bool{
         if let fireman = firemanDB.getFiremanforBravoSquad(by: uuid){
             logEnter.append(fireman)
