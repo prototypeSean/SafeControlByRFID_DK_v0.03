@@ -16,11 +16,6 @@ class SafeControlViewController: UIViewController{
 
     let model = SafeControllModel()
     
-    let ccc = BravoSquadTableViewCell()
-    @IBAction func add1fm(_ sender: Any) {
-        print("加加")
-        ccc.ppp += 1
-    }
     
     @IBOutlet weak var SafeControlTableView: UITableView!
     

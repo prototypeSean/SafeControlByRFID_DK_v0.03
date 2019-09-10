@@ -10,7 +10,6 @@
 		191EBB97231D0DD90040D1BE /* AddNewFiremanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB96231D0DD90040D1BE /* AddNewFiremanViewController.swift */; };
 		191EBB9A231DF9310040D1BE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB99231DF9310040D1BE /* ImagePicker.swift */; };
 		191EBB9C231E0E7A0040D1BE /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */; };
-		192008A5231FB0E300BF4179 /* BravoSquadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A4231FB0E300BF4179 /* BravoSquadViewController.swift */; };
 		192008AC23209AE700BF4179 /* BravoSquadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */; };
 		192008AD23209AE700BF4179 /* BarLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A823209AE600BF4179 /* BarLeftView.swift */; };
 		192008AE23209AE700BF4179 /* FiremanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */; };
@@ -30,7 +29,6 @@
 		191EBB96231D0DD90040D1BE /* AddNewFiremanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewFiremanViewController.swift; sourceTree = "<group>"; };
 		191EBB99231DF9310040D1BE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
-		192008A4231FB0E300BF4179 /* BravoSquadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BravoSquadViewController.swift; sourceTree = "<group>"; };
 		192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BravoSquadTableViewCell.swift; sourceTree = "<group>"; };
 		192008A823209AE600BF4179 /* BarLeftView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLeftView.swift; sourceTree = "<group>"; };
 		192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiremanCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -67,7 +65,6 @@
 			children = (
 				1978EF502318E88D00AC3707 /* SafeControlViewController.swift */,
 				191EBB96231D0DD90040D1BE /* AddNewFiremanViewController.swift */,
-				192008A4231FB0E300BF4179 /* BravoSquadViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -252,7 +249,6 @@
 				192008AC23209AE700BF4179 /* BravoSquadTableViewCell.swift in Sources */,
 				1978EF512318E88D00AC3707 /* SafeControlViewController.swift in Sources */,
 				191EBB97231D0DD90040D1BE /* AddNewFiremanViewController.swift in Sources */,
-				192008A5231FB0E300BF4179 /* BravoSquadViewController.swift in Sources */,
 				19AD97BE23161D3000E9B99B /* AppDelegate.swift in Sources */,
 				192008AD23209AE700BF4179 /* BarLeftView.swift in Sources */,
 			);
@@ -331,7 +327,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -386,7 +382,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
