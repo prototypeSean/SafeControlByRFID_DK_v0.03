@@ -11,6 +11,10 @@ import UIKit
 // 第一次收到收到RFID要把人放到清單上 第二次要移除
 // 這裡的資料靠 SafeControlModel 提供
 class SafeControlViewController: UIViewController{
+    @IBAction func rere(_ sender: UIButton) {
+        self.SafeControlTableView.beginUpdates()
+        self.SafeControlTableView.endUpdates()
+    }
     
     var firecommandDB: FirecommandDatabase!
 
@@ -26,7 +30,11 @@ class SafeControlViewController: UIViewController{
         SafeControlTableView.delegate = self
         SafeControlTableView.dataSource = self
         model.delegate = self
+//        SafeControlTableView.estimatedRowHeight = 600
+//        SafeControlTableView.rowHeight = UITableView.automaticDimension
+        
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        BluetoothModel.singletion.delegate = self
@@ -34,7 +42,8 @@ class SafeControlViewController: UIViewController{
         firecommandDB = FirecommandDatabase()
         firecommandDB.createTableFireman()
     }
-
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination as! AddNewFiremanViewController
         destination.setupModel(model: model)
@@ -61,7 +70,24 @@ extension SafeControlViewController:UITableViewDelegate,UITableViewDataSource{
         let bravoSquad = model.getBravoSquads()[indexPath.row]
         cell.setBravoSquad(bravoSquad: bravoSquad)
         cell.selectionStyle = .none
+
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let cell = tableView.cellForRow(at: indexPath) as? BravoSquadTableViewCell{
+//        let bravoSquad = model.getBravoSquads()[indexPath.row]
+        print("condition:\(cell.ppp.count)")
+        
+        if cell.ppp.count >= 5 && indexPath.section == 0{
+            
+            print("ppp高度高度\(CGFloat(cell.ppp.count*600))")
+            return CGFloat(cell.ppp.count/5*600)
+        }else
+        {
+            return 600
+            }}
+        return 600
     }
 }
 

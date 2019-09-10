@@ -15,8 +15,8 @@ class BravoSquadTableViewCell:UITableViewCell{
     
     @IBOutlet weak var heightOfCollectionView: NSLayoutConstraint!
     
-    var ppp:[String] = ["123","223"]
-    
+    var ppp:[String] = ["123","223","3","4","5"]
+//    ,"4","5","6","7","8","9","10","11","12","13","14"
     @IBAction func plus1fireman(_ sender: UIButton) {
         ppp.append("++")
         self.firemanCollectionView.reloadData()
@@ -42,7 +42,6 @@ class BravoSquadTableViewCell:UITableViewCell{
     
     
     
-    
     func setBravoSquad(bravoSquad:BravoSquad){
         self.bravoSquad = bravoSquad
         self.firemanCollectionView.reloadData()
@@ -52,13 +51,11 @@ class BravoSquadTableViewCell:UITableViewCell{
         heightOfCollectionView.constant = height
         self.firemanCollectionView.layoutIfNeeded()
         
-
         if bravoSquad.fireMans.count > 0{
             // 移到最右邊？
             self.firemanCollectionView.scrollToItem(at: IndexPath(row: bravoSquad.fireMans.count-1, section: 0), at: .right, animated: true)
         }
     }
-    
 }
 
 extension BravoSquadTableViewCell:UICollectionViewDelegate, UICollectionViewDataSource{

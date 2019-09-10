@@ -61,11 +61,11 @@
                                                             <subviews>
                                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="R5R-Nd-mDW">
                                                                     <rect key="frame" x="8" y="30" width="752" height="260"/>
-                                                                    <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" priority="999" constant="260" id="1VS-3h-Tlk"/>
                                                                     </constraints>
-                                                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LDl-v7-glE">
+                                                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="10" id="LDl-v7-glE">
                                                                         <size key="itemSize" width="180" height="240"/>
                                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -174,12 +174,17 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.17254901960784313" green="0.19607843137254902" blue="0.24313725490196078" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="NQP-St-Tee" secondAttribute="trailing" id="8MB-9s-bdF"/>
                                                 <constraint firstItem="2zC-73-0ip" firstAttribute="leading" secondItem="7oS-ZV-w5W" secondAttribute="leadingMargin" id="A0r-gk-mSY"/>
                                                 <constraint firstItem="NQP-St-Tee" firstAttribute="width" secondItem="7oS-ZV-w5W" secondAttribute="width" id="ETq-xZ-CuY"/>
                                                 <constraint firstItem="2zC-73-0ip" firstAttribute="top" secondItem="7oS-ZV-w5W" secondAttribute="topMargin" id="Hlj-IF-SDb"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2zC-73-0ip" secondAttribute="bottom" constant="558.5" id="Muf-CI-p7x"/>
+                                                <constraint firstAttribute="bottom" secondItem="NQP-St-Tee" secondAttribute="bottom" id="OBs-ie-IUy"/>
                                                 <constraint firstItem="NQP-St-Tee" firstAttribute="height" secondItem="7oS-ZV-w5W" secondAttribute="height" id="VUg-3k-qmO"/>
+                                                <constraint firstItem="NQP-St-Tee" firstAttribute="leading" secondItem="7oS-ZV-w5W" secondAttribute="leading" id="bwy-lF-0wM"/>
                                                 <constraint firstItem="NQP-St-Tee" firstAttribute="centerX" secondItem="7oS-ZV-w5W" secondAttribute="centerX" id="c5v-aq-v9k"/>
                                                 <constraint firstItem="NQP-St-Tee" firstAttribute="top" secondItem="7oS-ZV-w5W" secondAttribute="top" id="jn6-7P-eb3"/>
+                                                <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="Rcb-zO-oFr" secondAttribute="bottom" constant="139.5" id="oSZ-nk-Xlb"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <userDefinedRuntimeAttributes>
@@ -194,13 +199,22 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wi7-Re-Huj">
+                                <rect key="frame" x="361" y="70" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="rere:" destination="eVz-wj-sr4" eventType="touchUpInside" id="LnZ-Ws-L4y"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="wi7-Re-Huj" firstAttribute="leading" secondItem="VWP-D3-d93" secondAttribute="trailing" constant="-407" id="8Nm-Mg-MAi"/>
                             <constraint firstItem="VWP-D3-d93" firstAttribute="leading" secondItem="kDa-mF-pRJ" secondAttribute="leading" id="JPJ-W8-nJR"/>
                             <constraint firstItem="kDa-mF-pRJ" firstAttribute="bottom" secondItem="VWP-D3-d93" secondAttribute="bottom" id="cQJ-FI-VfY"/>
                             <constraint firstItem="kDa-mF-pRJ" firstAttribute="trailing" secondItem="VWP-D3-d93" secondAttribute="trailing" id="imN-QU-Jjg"/>
                             <constraint firstItem="VWP-D3-d93" firstAttribute="top" secondItem="kDa-mF-pRJ" secondAttribute="top" id="qc1-SF-3nM"/>
+                            <constraint firstItem="VWP-D3-d93" firstAttribute="top" secondItem="wi7-Re-Huj" secondAttribute="top" id="vrl-bO-6aC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kDa-mF-pRJ"/>
                     </view>
