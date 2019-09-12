@@ -15,7 +15,7 @@ class BravoSquadTableViewCell:UITableViewCell{
     
     @IBOutlet weak var heightOfCollectionView: NSLayoutConstraint!
     
-    var ppp:[String] = ["123","223","3","4","5"]
+    var ppp:[String] = ["123","223","3","4"]
 //    ,"4","5","6","7","8","9","10","11","12","13","14"
     @IBAction func plus1fireman(_ sender: UIButton) {
         ppp.append("++")
@@ -60,8 +60,8 @@ extension BravoSquadTableViewCell:UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = self.bravoSquad?.fireMans.count ?? 0
 //        return count
-        return ppp.count
-//        return count > 5 ? count:5
+//        return ppp.count
+        return count > 5 ? count:5
         
     }
     

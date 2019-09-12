@@ -63,8 +63,8 @@ extension SafeControlViewController:UITableViewDelegate,UITableViewDataSource{
         var firemansInbravoSquad = model.getBravoSquads()[indexPath.row].fireMans.count
             
         var rows = firemansInbravoSquad % 5
-        if rows < 1{
-            rows = 1
+        if rows < 2{
+            rows = 2
             print("有幾行消防員----\(rows)")
         }
         return CGFloat(rows*420)

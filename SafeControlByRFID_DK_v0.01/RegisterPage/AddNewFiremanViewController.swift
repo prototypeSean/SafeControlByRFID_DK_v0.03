@@ -19,7 +19,9 @@ import UIKit
 //table_FIREMAN_RFIDUUID = Expression<String>("firemanRFID")
 //table_FIREMAN_DEPARTMENT = Expression<String>("firemanDepartment")
 
-// TODO: 寫進資料庫的錯誤處理還沒做
+// TODO: 1. 寫進資料庫的錯誤處理還沒做
+// TODO: 2. status bar 的顏色
+// TODO: 3. 圖形化列出已經建檔的清單？
 // 這邊是由SafeComtrolelr轉跳而來的 要怎麼不跟他搶model的delegate ?
 
 
