@@ -20,8 +20,9 @@ import UIKit
 //table_FIREMAN_DEPARTMENT = Expression<String>("firemanDepartment")
 
 // TODO: 1. 寫進資料庫的錯誤處理還沒做
-// TODO: 2. status bar 的顏色
+// vTODO: 2. status bar 的顏色
 // TODO: 3. 圖形化列出已經建檔的清單？
+// TODO: 4. 點擊空白處收起鍵盤
 // 這邊是由SafeComtrolelr轉跳而來的 要怎麼不跟他搶model的delegate ?
 
 
@@ -34,11 +35,12 @@ class AddNewFiremanViewController: UIViewController {
     
     // MARK: IBOutlet區域
     @IBOutlet weak var fireManRFID: UILabel!
-    @IBOutlet weak var fireManName: UILabel!
+    @IBOutlet weak var fireManName: UITextField!
     @IBOutlet weak var firemanAvatar: UIImageView!
     @IBOutlet weak var serialNumber: UITextField!
     @IBOutlet weak var firemanCallSign: UITextField!
     @IBOutlet weak var firemanDepartment: UITextField!
+    
     
     var firemanTimeStamp:String?
     
@@ -52,15 +54,50 @@ class AddNewFiremanViewController: UIViewController {
             firemanTimeStamp: firemanTimeStamp!,
             firemanDepartment: firemanDepartment.text!)
     }
+    // 內部測試用 之後會拔掉 印出所有消防員
     @IBAction func printDB(_ sender: Any) {
         fireCommandDB?.allFireman()
     }
     
-    
+    // 呼叫Tools 裡面的照片選擇器
     @IBAction func showImagePicker(_ sender: UIButton) {
         self.imagePicker.present(from: sender)
     }
+    
     var recievedRFID:String?
+    
+    // MARK:-- 監聽各種裝置狀態(旋轉/鍵盤升起)，目前只有鍵盤升起的時候把view抬高
+    @objc func keyboardWillShow(notification: NSNotification) {
+        let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+        // 只有橫向＆＆鍵盤升起才需要抬高view
+        if keyboardSize != nil && UIDevice.current.orientation.isLandscape{
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= 120
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
+//     監聽裝置旋轉
+//    @objc func didOrientationChange(_ notification: Notification) {
+//        print("other")
+//        switch UIDevice.current.orientation {
+//        case .landscapeLeft, .landscapeRight:
+//            print("landscape")
+//            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        case .portrait, .portraitUpsideDown:
+//            print("portrait")
+//
+//        default:
+//            print("other")
+//        }
+//    }
     
     
     override func viewDidLoad() {
@@ -68,16 +105,31 @@ class AddNewFiremanViewController: UIViewController {
         
 //        BluetoothModel.singletion.delegate = self
 //        model.delegateForAddFireman = self
+        //MARK:-- 外觀設定
+        self.firemanAvatar.layer.borderWidth = 2.0
         
+        
+        
+        // 裝置打橫才需要抬升view
+        if UIDevice.current.orientation.isLandscape{
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
+        
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.didOrientationChange(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+        
+    
         self.imagePicker = ImagePicker(presentationController: self, delegate: self)
         // 這邊把資料庫實體化（連線）用來把資料存進 DB
         fireCommandDB = FirecommandDatabase()
         
         // 暫時的 之後要做鍵盤跟ＲＦＩＤ
-        fireManName.text = "這是姓名"
-        serialNumber.text = "序號AA2234"
-        firemanCallSign.text = "隊員呼號222"
-        firemanDepartment.text = "隊員所屬分隊"
+//        fireManName.text = "這是姓名"
+//        serialNumber.text = "序號AA2234"
+//        firemanCallSign.text = "隊員呼號222"
+//        firemanDepartment.text = "隊員所屬分隊"
         firemanTimeStamp = "16:05:44"
     }
 ///    轉跳過來的時候 把SafeControlVC的 Model借過來掛上delegate
@@ -111,6 +163,7 @@ class AddNewFiremanViewController: UIViewController {
 extension AddNewFiremanViewController: CustomImagePickerDelegate {
     func didSelect(image: UIImage?) {
         self.firemanAvatar.image = image
+        
     }
 }
 
@@ -128,7 +181,7 @@ extension AddNewFiremanViewController:SafeControldelegateforAddNewFireman{
     func newFiremanRFID(uuid: String) {
         DispatchQueue.main.async{
             print("新增消防人員頁面的dataDidUpdate")
-            self.fireManRFID.text = uuid
+            self.fireManRFID.text = "RFID: \(uuid)"
         }
     }
 }

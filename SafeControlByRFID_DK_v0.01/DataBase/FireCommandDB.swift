@@ -113,8 +113,50 @@ class FirecommandDatabase:PhotoPathJustSaved {
         }
     }
     // 讀取
+    func readFiremanForBravoSquadaTime(by uuid:String) -> String{
+        
+        var currentTimeStamp = ""
+        
+        for fm in try! db.prepare(table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)){
+            print(fm[table_FIREMAN_TIMESTAMP])
+            currentTimeStamp.append(fm[table_FIREMAN_TIMESTAMP])
+        }
+        return currentTimeStamp
+    }
     
-    // 更新
+    // 更新-- 每次消防員逼逼的時候要更新(插入現在時間戳到timeStamp 欄位）
+    func updateFiremanForBravoSquadaTime(by uuid:String){
+        
+        let fireman = table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)
+        
+        // 當前時間
+        let currentTimeStamp = Date().timeIntervalSince1970
+        print("嗶嗶時間戳\(currentTimeStamp)")
+        
+        // 取出消防員的時間戳欄位準備更新
+        var timeStampUpdate = readFiremanForBravoSquadaTime(by: uuid)
+        
+        // 把時間戳轉成 data-> 再轉成 String 才能存入
+        let currenttimeStampString = String(currentTimeStamp)
+        print("轉成文字的嗶嗶時間戳\(currenttimeStampString)")
+        
+        timeStampUpdate.append(contentsOf: ",\(currenttimeStampString)")
+        
+        
+        print("DB更新之後的時間戳：\(timeStampUpdate)")
+        
+        
+        do{
+            let updatedRows = try db.run(fireman.update(table_FIREMAN_TIMESTAMP <- timeStampUpdate))
+            if updatedRows > 0 {
+                print("插入時間戳成功")
+            }else{
+                print("沒有發現消防員\(uuid)")
+            }
+        }catch{
+            print("插入消防員時間戳失敗:\(error)")
+        }
+    }
     
     
     
@@ -123,13 +165,15 @@ class FirecommandDatabase:PhotoPathJustSaved {
     func getFiremanforBravoSquad(by uuid:String) -> FiremanForBravoSquad?{
         do{
             let fireman = Table("table_FIREMAN")
-            
+            // 先更新時間戳 再把資料傳給model
+            updateFiremanForBravoSquadaTime(by: uuid)
             
             // 幾乎都是sqlite.swift提供的語法，目的是用UUID找出對應的消防員
             for fm in try db.prepare(fireman.where(table_FIREMAN_RFIDUUID == uuid)){
                 photoManager = PhotoManager()
                 let imageFromlocalPath = photoManager?.loadImageFromDocumentDirectory(filename: fm[table_FIREMAN_RFIDUUID]) ?? UIImage(named: "ImageInApp")!
             print("取出的BravoSquad人員:\(fm[table_FIREMAN_NAME]),\nRFID:\(fm[table_FIREMAN_RFIDUUID]),\n時間戳:\(fm[table_FIREMAN_TIMESTAMP]),\n照片路徑:\(fm[table_FIREMAN_PHOTO_PATH]),")
+                
                 return FiremanForBravoSquad(name: fm[table_FIREMAN_NAME], uuid: fm[table_FIREMAN_RFIDUUID], timestamp: fm[table_FIREMAN_TIMESTAMP], image: imageFromlocalPath)
             }
         }catch{

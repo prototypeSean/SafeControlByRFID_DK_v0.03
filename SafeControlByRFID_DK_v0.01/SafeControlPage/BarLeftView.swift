@@ -14,16 +14,17 @@ enum LifeCircleColor{
     case alert
     case critical
     case white
+    
     public func getUIColor() -> UIColor{
         switch self {
         case .normal:
-            return UIColor.init(red: 214, green: 214, blue: 214, alpha: 1)
+            return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         case .alert:
-            return UIColor(displayP3Red: 246/255, green: 168/255, blue: 16/255, alpha: 1)
+            return #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         case .critical:
-            return UIColor(displayP3Red: 247/255, green: 74/255, blue: 74/255, alpha: 1)
+            return #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         case .white:
-            return UIColor.white
+            return #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         }
     }
 }

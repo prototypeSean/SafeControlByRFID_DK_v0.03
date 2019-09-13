@@ -66,6 +66,7 @@ class SafeControllModel:NSObject{
         if let fireman = firemanDB.getFiremanforBravoSquad(by: uuid){
             logEnter.append(fireman)
             bravoSquads[0].fireMans.append(fireman)
+//            firemanDB.updateFiremanForBravoSquadaTime(by: uuid)
             return true
         }
         return false
