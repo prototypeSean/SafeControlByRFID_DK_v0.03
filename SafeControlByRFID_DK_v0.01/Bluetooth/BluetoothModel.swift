@@ -58,15 +58,11 @@ class BluetoothModel:NSObject{
         let deviceName = self.bleNfcDevice?.getName()
 //        self.textLog.text.append(contentsOf: "設備名稱：\(deviceName ?? "獲取設備名稱失敗")\n")
         print("設備名稱：\(deviceName ?? "獲取設備名稱失敗")")
-        // 人家寫的getBatteryVoltage規定不能在主線程跑
-        DispatchQueue.global(qos: .background).async {
-            let deviceBattery = self.bleNfcDevice?.getBatteryVoltage()
-            print("電池電壓：\(round(deviceBattery!*100)/100)")
-            // 外觀只能在主線程
-//            DispatchQueue.main.async {
-//                self.textLog.text.append(contentsOf: "電池電壓：\(round(deviceBattery!*100)/100)\n")
-//            }
-        }
+        // TODO:--人家寫的getBatteryVoltage規定不能在主線程跑(.偶而會造成閃退因為NSException沒處理)
+//        DispatchQueue.global(qos: .background).async {
+//            let deviceBattery = self.bleNfcDevice?.getBatteryVoltage()
+//            print("電池電壓：\(round(deviceBattery!*100)/100)")
+//        }
     }
     
 //    開啟 RFID 自動掃描功能
@@ -75,13 +71,28 @@ class BluetoothModel:NSObject{
 //            self.textLog.text.append(contentsOf: "未連上藍牙")
             return
         }
-        DispatchQueue.global(qos: .background).async {
-            if (self.bleNfcDevice?.startAutoSearchCard(20, cardType: UInt8(ISO14443_P4))) != nil{
-                print("等待感應RFID中...")
-            }else{
-                print("不支援自動感應")
+        
+//        let queueForRFIDScan:DispatchQueue = DispatchQueue(label: "AutoScanRFID",attributes: .concurrent)
+        do{
+            try ObjC.catchException{
+                    if (self.bleNfcDevice?.startAutoSearchCard(20, cardType: UInt8(ISO14443_P3))) != nil{
+                        print("等待感應RFID中...")
+                    }else{
+                        print("不支援自動感應")
+                    }
             }
+        }catch {
+            print("該死的線程錯誤ＲＲＲＲＲＲＲ\(error)")
         }
+        
+        // 不確定是不是因為丟到背景一直抱錯
+//        DispatchQueue.global(qos: .background).async {
+//            if (self.bleNfcDevice?.startAutoSearchCard(20, cardType: UInt8(ISO14443_P4))) != nil{
+//                print("等待感應RFID中...")
+//            }else{
+//                print("不支援自動感應")
+//            }
+//        }
     }
     
     // 讀寫卡片 因爲不知道怎用swift抓NSUInteger 但是可以抓編號,所以貼過來看
@@ -141,7 +152,10 @@ extension BluetoothModel: DKBleManagerDelegate, DKBleNfcDeviceDelegate{
         case .poweredOn:
 //            self.textLog.text.append(contentsOf: "本機藍牙藍芽已開啟\n")
             print("藍芽已開啟")
-            self.findNearBle()
+            DispatchQueue.main.async {
+                self.findNearBle()
+            }
+            
         @unknown default:
 //            self.textLog.text.append(contentsOf: "unknown default\n")
             print("unknown default")
@@ -158,14 +172,16 @@ extension BluetoothModel: DKBleManagerDelegate, DKBleNfcDeviceDelegate{
             self.mNearestBle = peripheral
             self.bleManager?.connect(peripheral, callbackBlock: { (isConnected) in
                 if isConnected{
-                    print("連接成功")
+                    print("連接BLE_NFC成功")
                     self.bleManager?.stopScan()
                     self.getBLEDeviceMsg()
                     
                     //連上設備就打開 RFID
-                    self.AutoScanRFID()
-                    //                    self.textLog.text = String(describing: peripheral.services)
-                    
+//                    DispatchQueue.global(qos: .background).async {
+//                        print("背景自動巡卡")
+//                        self.AutoScanRFID()
+//                    }
+
                 }else{ print("連接失敗")}
             })
         }
@@ -177,20 +193,25 @@ extension BluetoothModel: DKBleManagerDelegate, DKBleNfcDeviceDelegate{
         if state {
 //            self.textLog.text.append(contentsOf: "與設備連線成功\n")
             print("與設備連線成功")
+            let queueForRFIDScan:DispatchQueue = DispatchQueue(label: "AutoScanRFID")
+            queueForRFIDScan.sync {
+                self.AutoScanRFID()
+            }
         }else{
 //            self.textLog.text.append(contentsOf: "與設備連線失敗\n")
             print("與設備連線失敗")
             
             // 斷線重連
-            self.bleManager!.connect(self.mNearestBle, callbackBlock: { (isconnected) in
-                if isconnected{
-                    print("重新連接成功")
-                    self.AutoScanRFID()
-                }
-                else{
-                    print("重新連接失敗")
-                }
-            })
+            DispatchQueue.main.async {
+                self.bleManager!.connect(self.mNearestBle, callbackBlock: { (isconnected) in
+                    if isconnected{
+                        print("重新連接成功")
+                    }
+                    else{
+                        print("重新連接失敗")
+                    }
+                })
+            }
         }
     }
     

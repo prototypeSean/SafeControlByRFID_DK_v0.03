@@ -14,6 +14,7 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     @IBOutlet weak var timestampLable: UILabel!
     @IBOutlet weak var nameLable: UILabel!
     @IBOutlet weak var barLeftVIew: BarLeftView!
+    @IBOutlet weak var enterText: UILabel!
     
     private var timestamp:TimeInterval?
     // 單位是秒
@@ -21,9 +22,14 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     
     override func awakeFromNib() {
         // cell的圓角
-        self.layer.cornerRadius = 5.0
+        self.layer.cornerRadius = 2.0
+        self.layer.borderWidth = 1
+        self.photo.layer.borderWidth = 1
+        self.photo.layer.borderColor = UIColor.white.cgColor
+//        self.enterText.sizeToFit()
+        self.backgroundColor = UIColor.clear
         super.awakeFromNib()
-        self.backgroundColor = LifeCircleColor.normal.getUIColor()
+        
         countDown()
     }
     
@@ -32,11 +38,14 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     // 因為sqlite只能存純文字 所以需要一些轉換
     // 時間戳label 應該要顯示進去多久
     func setFireman(fireman:FiremanForBravoSquad?){
+        // 沒有消防員的時候顯示什麼
         if fireman == nil{
+//            print("setFireman 沒有消防員")
             self.nameLable.text = nil
             self.photo.image = nil
             timestampLable.text = nil
             timestamp = nil
+            self.backgroundColor = UIColor.clear
             changeColor(by: 1)
             barLeftVIew.setBar(ratio: 1)
             return
@@ -68,7 +77,6 @@ class FiremanCollectionViewCell:UICollectionViewCell{
         
         // 現在時間 - 逼楅時間
         let time_diff = Date().timeIntervalSince1970 - doubleLtestTimeStamp
-        print("time_diff:\(time_diff)")
         // (總氣瓶時間 -(進去了多久))/ 總時間
         
         var ratio:Double = (barMaxTime - time_diff)/barMaxTime
@@ -102,13 +110,25 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     
     private func changeColor(by ratio:Double){
         var colorSetting:LifeCircleColor = LifeCircleColor.normal
+        self.nameLable.textColor = UIColor.white
+        self.enterText.textColor = UIColor.white
+        self.timestampLable.textColor = UIColor.white
         if ratio <= 0.5{
             colorSetting = .alert
+            self.nameLable.textColor = UIColor.black
+            self.enterText.textColor = UIColor.black
+            self.timestampLable.textColor = UIColor.black
+            self.backgroundColor = colorSetting.getUIColor()
         }
         if ratio < 0.3{
             colorSetting = .critical
+            self.nameLable.textColor = UIColor.white
+            self.enterText.textColor = UIColor.white
+            self.timestampLable.textColor = UIColor.white
+            self.backgroundColor = colorSetting.getUIColor()
         }
-        self.backgroundColor = colorSetting.getUIColor()
+        
+        self.layer.borderColor = colorSetting.getUIColor().cgColor
         barLeftVIew.setBar(color: colorSetting)
     }
 }

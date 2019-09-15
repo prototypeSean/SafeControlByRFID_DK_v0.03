@@ -9,13 +9,31 @@
 // 安管頁面最外層的VC 要吃下兩個協議來使用tableView的func
 
 import UIKit
+
+
 // 第一次收到收到RFID要把人放到清單上 第二次要移除
 // 這裡的資料靠 SafeControlModel 提供
 class SafeControlViewController: UIViewController{
     
+    var divideBy:Float = 4.0
+    //     監聽裝置旋轉
+    @objc func didOrientationChange(_ notification: Notification) {
+        print("other")
+        switch UIDevice.current.orientation {
+        case .landscapeLeft, .landscapeRight:
+            self.divideBy = 5.0
+            print("landscape")
+        case .portrait, .portraitUpsideDown:
+            self.divideBy = 4.0
+            print("portrait")
+        default:
+            print("other")
+        }
+    }
+    
     var firecommandDB: FirecommandDatabase!
 
-    let model = SafeControllModel()
+    let model = SafeControlModel()
     
     @IBOutlet weak var SafeControlTableView: UITableView!
     
@@ -34,9 +52,20 @@ class SafeControlViewController: UIViewController{
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destination = segue.destination as! AddNewFiremanViewController
-        /// 有點邪門的寫法，因為註冊頁面是child的關係，這樣兩個VC都會收到delegate
-        destination.setupModel(model: model)
+        
+        if segue.identifier == "segueToLogPage"{
+            let destinationtolog = segue.destination as! SafeControlLogPageViewController
+            destinationtolog.setupModel(model: model)
+        }
+        
+        if segue.identifier == "segueToAddNewFireman"{
+            let destinationtoAdd = segue.destination as! AddNewFiremanViewController
+            /// 有點邪門的寫法，因為註冊頁面是child的關係，這樣兩個VC都會收到delegate
+            destinationtoAdd.setupModel(model: model)
+        }
+        
+        
+        
     }
 }
 
@@ -60,12 +89,14 @@ extension SafeControlViewController:UITableViewDelegate,UITableViewDataSource{
 //        let bravoSquad = model.getBravoSquads()[indexPath.row]
 //        print("condition:\(cell.ppp.count)")
         
-        var firemansInbravoSquad = model.getBravoSquads()[indexPath.row].fireMans.count
-            
-        var rows = firemansInbravoSquad % 5
-        if rows < 2{
-            rows = 2
-            print("有幾行消防員----\(rows)")
+        // 根據現在平版狀態直向橫向來給出可能要變更的行高
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didOrientationChange(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
+        
+        // 計算現在小隊中有多少人用來計算顯示需要的行數(計算用的數字都是float才能無條件進位)
+        let firemansInbravoSquad = Float(model.getBravoSquads()[indexPath.row].fireMans.count)
+        var rows = ceil(firemansInbravoSquad / divideBy)
+        if rows < 3{
+            rows = 3
         }
         return CGFloat(rows*420)
 //        if cell.ppp.count >= 5 && indexPath.section == 0{
@@ -80,7 +111,7 @@ extension SafeControlViewController:UITableViewDelegate,UITableViewDataSource{
     }
 }
 
-extension SafeControlViewController:SafeControllModelDelegate{
+extension SafeControlViewController:SafeControlModelDelegate{
     func dataDidUpdate() {
         DispatchQueue.main.async { [weak self] in
             self?.SafeControlTableView.reloadData()

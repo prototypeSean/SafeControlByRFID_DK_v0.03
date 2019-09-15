@@ -13,7 +13,7 @@
 		192008AC23209AE700BF4179 /* BravoSquadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */; };
 		192008AD23209AE700BF4179 /* BarLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A823209AE600BF4179 /* BarLeftView.swift */; };
 		192008AE23209AE700BF4179 /* FiremanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */; };
-		192008B023209AE700BF4179 /* SafeControllModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008AB23209AE700BF4179 /* SafeControllModel.swift */; };
+		192008B023209AE700BF4179 /* SafeControlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192008AB23209AE700BF4179 /* SafeControlModel.swift */; };
 		1978EF512318E88D00AC3707 /* SafeControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1978EF502318E88D00AC3707 /* SafeControlViewController.swift */; };
 		1978EF532318F66900AC3707 /* FireCommandDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1978EF522318F66900AC3707 /* FireCommandDB.swift */; };
 		19AD97BE23161D3000E9B99B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AD97BD23161D3000E9B99B /* AppDelegate.swift */; };
@@ -48,6 +48,9 @@
 		19F7C868232A151A005F1167 /* CpuCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 19F7C85F232A1519005F1167 /* CpuCard.m */; };
 		19F7C869232A151A005F1167 /* FeliCa.m in Sources */ = {isa = PBXBuildFile; fileRef = 19F7C860232A151A005F1167 /* FeliCa.m */; };
 		19F7C86A232A151A005F1167 /* Mifare.m in Sources */ = {isa = PBXBuildFile; fileRef = 19F7C861232A151A005F1167 /* Mifare.m */; };
+		19F7C86E232CC7AC005F1167 /* SafeControlLogPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F7C86C232CC7AB005F1167 /* SafeControlLogPageViewController.swift */; };
+		19F7C86F232CC7AC005F1167 /* SafeControlLogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F7C86D232CC7AC005F1167 /* SafeControlLogTableViewCell.swift */; };
+		19F7C872232D030B005F1167 /* Objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 19F7C871232D030B005F1167 /* Objc.m */; };
 		8EA93EFCA058E79B929F0C2C /* libPods-SafeControlByRFID_DK_v0.01.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9B69AE1DCDE50C34507C7C /* libPods-SafeControlByRFID_DK_v0.01.a */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +61,7 @@
 		192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BravoSquadTableViewCell.swift; sourceTree = "<group>"; };
 		192008A823209AE600BF4179 /* BarLeftView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLeftView.swift; sourceTree = "<group>"; };
 		192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiremanCollectionViewCell.swift; sourceTree = "<group>"; };
-		192008AB23209AE700BF4179 /* SafeControllModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeControllModel.swift; sourceTree = "<group>"; };
+		192008AB23209AE700BF4179 /* SafeControlModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeControlModel.swift; sourceTree = "<group>"; };
 		1978EF502318E88D00AC3707 /* SafeControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeControlViewController.swift; sourceTree = "<group>"; };
 		1978EF522318F66900AC3707 /* FireCommandDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireCommandDB.swift; sourceTree = "<group>"; };
 		19AD97BA23161D3000E9B99B /* SafeControlByRFID_DK_v0.01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeControlByRFID_DK_v0.01.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +126,10 @@
 		19F7C85F232A1519005F1167 /* CpuCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CpuCard.m; sourceTree = "<group>"; };
 		19F7C860232A151A005F1167 /* FeliCa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeliCa.m; sourceTree = "<group>"; };
 		19F7C861232A151A005F1167 /* Mifare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mifare.m; sourceTree = "<group>"; };
+		19F7C86C232CC7AB005F1167 /* SafeControlLogPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeControlLogPageViewController.swift; sourceTree = "<group>"; };
+		19F7C86D232CC7AC005F1167 /* SafeControlLogTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeControlLogTableViewCell.swift; sourceTree = "<group>"; };
+		19F7C870232D02D0005F1167 /* Objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Objc.h; sourceTree = "<group>"; };
+		19F7C871232D030B005F1167 /* Objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Objc.m; sourceTree = "<group>"; };
 		2348C79872F456E364B1AF96 /* Pods-SafeControlByRFID_DK_v0.01.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeControlByRFID_DK_v0.01.release.xcconfig"; path = "Target Support Files/Pods-SafeControlByRFID_DK_v0.01/Pods-SafeControlByRFID_DK_v0.01.release.xcconfig"; sourceTree = "<group>"; };
 		3F9B69AE1DCDE50C34507C7C /* libPods-SafeControlByRFID_DK_v0.01.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SafeControlByRFID_DK_v0.01.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88ED3BBE732BAE983DABF1C7 /* Pods-SafeControlByRFID_DK_v0.01.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeControlByRFID_DK_v0.01.debug.xcconfig"; path = "Target Support Files/Pods-SafeControlByRFID_DK_v0.01/Pods-SafeControlByRFID_DK_v0.01.debug.xcconfig"; sourceTree = "<group>"; };
@@ -160,7 +167,7 @@
 		192008A623209AE600BF4179 /* SafeControlPage */ = {
 			isa = PBXGroup;
 			children = (
-				192008AB23209AE700BF4179 /* SafeControllModel.swift */,
+				192008AB23209AE700BF4179 /* SafeControlModel.swift */,
 				1978EF502318E88D00AC3707 /* SafeControlViewController.swift */,
 				192008A723209AE600BF4179 /* BravoSquadTableViewCell.swift */,
 				192008A923209AE600BF4179 /* FiremanCollectionViewCell.swift */,
@@ -210,6 +217,7 @@
 				192AA63E2327DD40002ED806 /* DataBase */,
 				192AA63D2327DD16002ED806 /* Bluetooth */,
 				192008A623209AE600BF4179 /* SafeControlPage */,
+				19F7C86B232CC772005F1167 /* SafeControlLogPage */,
 				191EBB98231DF8DE0040D1BE /* Tools */,
 				191EBB95231D0D3B0040D1BE /* RegisterPage */,
 				19AD97C123161D3000E9B99B /* Main.storyboard */,
@@ -234,6 +242,8 @@
 				19F7C802232A0ECB005F1167 /* DKBleNfcDevice.h */,
 				19F7C801232A0ECB005F1167 /* DKBleNfcDevice.m */,
 				19F7C800232A0ECB005F1167 /* SafeControlByRFID_DK_v0.01-Bridging-Header.h */,
+				19F7C870232D02D0005F1167 /* Objc.h */,
+				19F7C871232D030B005F1167 /* Objc.m */,
 			);
 			path = BleNfcSDK;
 			sourceTree = "<group>";
@@ -322,6 +332,15 @@
 				19F7C814232A0F8A005F1167 /* Ultralight.m */,
 			);
 			path = card;
+			sourceTree = "<group>";
+		};
+		19F7C86B232CC772005F1167 /* SafeControlLogPage */ = {
+			isa = PBXGroup;
+			children = (
+				19F7C86C232CC7AB005F1167 /* SafeControlLogPageViewController.swift */,
+				19F7C86D232CC7AC005F1167 /* SafeControlLogTableViewCell.swift */,
+			);
+			path = SafeControlLogPage;
 			sourceTree = "<group>";
 		};
 		BA96B7313319E092A0EB64EF /* Frameworks */ = {
@@ -440,8 +459,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				19AD97C623161D3000E9B99B /* SafeControlByRFID_DK_v0_01.xcdatamodeld in Sources */,
+				19F7C872232D030B005F1167 /* Objc.m in Sources */,
 				19F7C866232A151A005F1167 /* Ultralight.m in Sources */,
-				192008B023209AE700BF4179 /* SafeControllModel.swift in Sources */,
+				192008B023209AE700BF4179 /* SafeControlModel.swift in Sources */,
 				19F7C822232A0F8A005F1167 /* Iso15693Card.m in Sources */,
 				19F7C843232A14D7005F1167 /* NSData+Hex.m in Sources */,
 				19F7C867232A151A005F1167 /* Card.m in Sources */,
@@ -453,6 +473,8 @@
 				191EBB9C231E0E7A0040D1BE /* PhotoManager.swift in Sources */,
 				19F7C864232A151A005F1167 /* Ntag21x.m in Sources */,
 				19F7C824232A0F8A005F1167 /* Iso14443bCard.m in Sources */,
+				19F7C86F232CC7AC005F1167 /* SafeControlLogTableViewCell.swift in Sources */,
+				19F7C86E232CC7AC005F1167 /* SafeControlLogPageViewController.swift in Sources */,
 				192008AE23209AE700BF4179 /* FiremanCollectionViewCell.swift in Sources */,
 				19F7C823232A0F8A005F1167 /* Ultralight.m in Sources */,
 				19F7C83F232A14BF005F1167 /* DKCardNoResponseException.m in Sources */,

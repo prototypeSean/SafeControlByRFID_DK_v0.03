@@ -15,20 +15,18 @@ class BravoSquadTableViewCell:UITableViewCell{
     
     @IBOutlet weak var heightOfCollectionView: NSLayoutConstraint!
     
-    var ppp:[String] = ["123","223","3","4"]
-//    ,"4","5","6","7","8","9","10","11","12","13","14"
-    @IBAction func plus1fireman(_ sender: UIButton) {
-        ppp.append("++")
-        self.firemanCollectionView.reloadData()
-        
-        // TODO:-- 抄來的 尚未解析
-        // 讓collectoinView高度自動適應，這邊不知道原理，趕時間以後再研究
-        // https://stackoverflow.com/a/42438709
-        // 文中的「4.Change the bottom equal constraint of the collection view to greater or equal.」沒用上才能作動
-        let height:CGFloat = self.firemanCollectionView.collectionViewLayout.collectionViewContentSize.height
-        heightOfCollectionView.constant = height
-        self.firemanCollectionView.layoutIfNeeded()
-    }
+//    var ppp:[String] = ["123","223","3","4"]
+////    ,"4","5","6","7","8","9","10","11","12","13","14"
+//    @IBAction func plus1fireman(_ sender: UIButton) {
+//        ppp.append("++")
+//        self.firemanCollectionView.reloadData()
+//
+//
+//        // 文中的「4.Change the bottom equal constraint of the collection view to greater or equal.」沒用上才能作動
+//        let height:CGFloat = self.firemanCollectionView.collectionViewLayout.collectionViewContentSize.height
+//        heightOfCollectionView.constant = height
+//        self.firemanCollectionView.layoutIfNeeded()
+//    }
     
     
     // TODO:-- 沒用xib這行有用？暫時放著不管
@@ -44,7 +42,9 @@ class BravoSquadTableViewCell:UITableViewCell{
         self.bravoSquad = bravoSquad
         self.firemanCollectionView.reloadData()
         
-        // collectoinView高度自動適應
+        // TODO:-- 抄來的 尚未解析
+        // 讓collectoinView高度自動適應，這邊不知道原理，趕時間以後再研究
+        // https://stackoverflow.com/a/42438709
         let height:CGFloat = self.firemanCollectionView.collectionViewLayout.collectionViewContentSize.height
         heightOfCollectionView.constant = height
         self.firemanCollectionView.layoutIfNeeded()
@@ -61,7 +61,7 @@ extension BravoSquadTableViewCell:UICollectionViewDelegate, UICollectionViewData
         let count = self.bravoSquad?.fireMans.count ?? 0
 //        return count
 //        return ppp.count
-        return count > 5 ? count:5
+        return count > 12 ? count:12
         
     }
     

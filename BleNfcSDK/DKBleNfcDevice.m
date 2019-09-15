@@ -221,6 +221,7 @@
     dispatch_semaphore_t sema = dispatch_semaphore_create(0);
     [self requestRfmAutoSearchCard:YES delay:delayMsx10 cardType:bytCardType callback:^(BOOL isOk) {
         status = isOk;
+        printf("釋放信號量");
         dispatch_semaphore_signal(sema);   //释放信号量
     }];
     if ( dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW,DEVICE_NO_RESPONSE_TIME*NSEC_PER_MSEC)) != 0 ) {  //等待信号量

@@ -10,7 +10,7 @@
 import Foundation
 
 // 只是個時間點的flag的樣子
-protocol SafeControllModelDelegate{
+protocol SafeControlModelDelegate{
     func dataDidUpdate()
 }
 
@@ -23,7 +23,7 @@ struct BravoSquad {
 }
 
 
-class SafeControllModel:NSObject{
+class SafeControlModel:NSObject{
     
     
     // 連上資料庫（這邊要用let還是var尚存疑）
@@ -43,8 +43,8 @@ class SafeControllModel:NSObject{
     }
     
     // 資料更新的時候用的旗子
-    var delegate:SafeControllModelDelegate?
-    var delegateForLog:SafeControllModelDelegate?
+    var delegate:SafeControlModelDelegate?
+    var delegateForLog:SafeControlModelDelegate?
     var delegateForAddFireman:SafeControldelegateforAddNewFireman?
     
     // 吃uuid當參數 試著把人從小隊中移出 並寫入logLeave中，移出成功＝true
@@ -82,14 +82,14 @@ class SafeControllModel:NSObject{
 }
 
 // public API
-extension SafeControllModel{
+extension SafeControlModel{
     func getBravoSquads() -> Array<BravoSquad>{
         return self.bravoSquads
     }
 }
 
 // delegate from bluetooth 收到藍牙傳來的UUID 就新增或移除人員,然後再給兩個ＶＣ一根旗子讓他們刷新頁面
-extension SafeControllModel:BluetoothModelDelegate{
+extension SafeControlModel:BluetoothModelDelegate{
     func didReciveRFIDDate(uuid: String) {
         print("收到RFID:--處理中")
         // 如果移除失敗就新增 如果移除成功就會遇到return跳出迴圈

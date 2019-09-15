@@ -18,13 +18,13 @@ enum LifeCircleColor{
     public func getUIColor() -> UIColor{
         switch self {
         case .normal:
-            return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            return #colorLiteral(red: 0.3450980392, green: 0.968627451, blue: 0.8549019608, alpha: 1)
         case .alert:
-            return #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+            return #colorLiteral(red: 1, green: 0.8352941176, blue: 0, alpha: 1)
         case .critical:
             return #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         case .white:
-            return #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         }
     }
 }
@@ -35,17 +35,20 @@ class BarLeftView:UIView{
     private let barLayer = CAShapeLayer()
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.2)
+//        self.backgroundColor = UIColor.clear
         self.layer.addSublayer(barLayer)
-        barLayer.lineWidth = self.bounds.width/2
+        
+        // 原本是 self.bounds.width
+        barLayer.lineWidth = 9
         self.setNeedsDisplay()
     }
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         let bezi = UIBezierPath()
-        bezi.move(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height))
-        bezi.addLine(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height*CGFloat(1 - barRatio)))
+        // 想要讓線條至中的話 x: self.bounds.width/2
+        bezi.move(to: CGPoint(x: self.bounds.width, y: self.bounds.height))
+        bezi.addLine(to: CGPoint(x: self.bounds.width, y: self.bounds.height*CGFloat(1 - barRatio)))
         barLayer.path = bezi.cgPath
         barLayer.strokeColor = barColor.getUIColor().cgColor
     }
@@ -61,7 +64,7 @@ class BarLeftView:UIView{
     }
     /// 設定bar的顏色
     func setBar(color:LifeCircleColor){
-        //self.barColor = color
+        self.barColor = color
         //self.setNeedsDisplay()
     }
 }

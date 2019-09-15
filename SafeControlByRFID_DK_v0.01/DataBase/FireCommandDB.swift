@@ -185,9 +185,27 @@ class FirecommandDatabase:PhotoPathJustSaved {
 }
 
 // 提供給安管系統的簡易版名單
-struct FiremanForBravoSquad {
+public struct FiremanForBravoSquad {
     let name:String
     let uuid:String
     let timestamp:String
     let image:UIImage
+}
+
+
+public func getLatestedTimeStamp(fireman:FiremanForBravoSquad) -> String{
+    
+    // 從資料庫取出並轉成陣列
+    let dateStringArray = fireman.timestamp.components(separatedBy: ",")
+    // 最新的一筆
+    let latestTimeStamp = dateStringArray.last
+    // 純文字轉乘Double = 時間戳 因為本來內容就是時間戳 轉成double就好了
+    let doubleLtestTimeStamp = Double(latestTimeStamp!)!
+    
+    // 把最後一筆時間戳轉成時間格式
+    let dateFormater:DateFormatter = DateFormatter()
+    dateFormater.dateFormat = "HH:mm:ss"
+    let dateTimeLabel = Date(timeIntervalSince1970: doubleLtestTimeStamp)
+    let timestampLableText = dateFormater.string(from: dateTimeLabel)
+    return timestampLableText
 }
