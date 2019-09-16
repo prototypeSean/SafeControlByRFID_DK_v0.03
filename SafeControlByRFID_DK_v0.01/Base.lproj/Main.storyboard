@@ -331,7 +331,7 @@
                                 <rect key="frame" x="0.0" y="942" width="164" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="印出FiremanDB">
-                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="printDB:" destination="iGh-xc-vsU" eventType="touchUpInside" id="jAV-Th-YY0"/>

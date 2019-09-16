@@ -118,7 +118,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
         var currentTimeStamp = ""
         
         for fm in try! db.prepare(table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)){
-            print(fm[table_FIREMAN_TIMESTAMP])
+            print("讀取更新前資料庫中的時間戳\(fm[table_FIREMAN_TIMESTAMP])")
             currentTimeStamp.append(fm[table_FIREMAN_TIMESTAMP])
         }
         return currentTimeStamp
@@ -135,7 +135,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
         
         // 取出消防員的時間戳欄位準備更新
         var timeStampUpdate = readFiremanForBravoSquadaTime(by: uuid)
-        
+        print("更新前資料庫時間戳\(timeStampUpdate)")
         // 把時間戳轉成 data-> 再轉成 String 才能存入
         let currenttimeStampString = String(currentTimeStamp)
         print("轉成文字的嗶嗶時間戳\(currenttimeStampString)")
@@ -145,7 +145,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
         
         print("DB更新之後的時間戳：\(timeStampUpdate)")
         
-        
+        print("要更新的隊員\(fireman[table_FIREMAN_NAME])")
         do{
             let updatedRows = try db.run(fireman.update(table_FIREMAN_TIMESTAMP <- timeStampUpdate))
             if updatedRows > 0 {

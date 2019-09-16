@@ -18,7 +18,7 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     
     private var timestamp:TimeInterval?
     // 單位是秒
-    let barMaxTime:Double = 30
+    let barMaxTime:Double = 10
     
     override func awakeFromNib() {
         // cell的圓角
@@ -28,6 +28,7 @@ class FiremanCollectionViewCell:UICollectionViewCell{
         self.photo.layer.borderColor = UIColor.white.cgColor
 //        self.enterText.sizeToFit()
         self.backgroundColor = UIColor.clear
+        barLeftVIew.setBar(color: LifeCircleColor.normal)
         super.awakeFromNib()
         
         countDown()
@@ -46,16 +47,15 @@ class FiremanCollectionViewCell:UICollectionViewCell{
             timestampLable.text = nil
             timestamp = nil
             self.backgroundColor = UIColor.clear
-            changeColor(by: 1)
+//            changeColor(by: 1)
             barLeftVIew.setBar(ratio: 1)
+            barLeftVIew.setBar(color: LifeCircleColor.normal)
             return
         }
         self.nameLable.text = fireman!.name
         self.photo.image = fireman!.image
         
         // 從資料庫讀出時間戳字串-->取最後一筆-->拿來計算(會取到逼逼出來的？)
-        
-        
         // 從資料庫取出並轉成陣列
         let dateStringArray = fireman!.timestamp.components(separatedBy: ",")
         
@@ -113,11 +113,15 @@ class FiremanCollectionViewCell:UICollectionViewCell{
         self.nameLable.textColor = UIColor.white
         self.enterText.textColor = UIColor.white
         self.timestampLable.textColor = UIColor.white
+        self.backgroundColor = UIColor.clear
+//        self.layer.borderColor = colorSetting.getUIColor().cgColor
+        barLeftVIew.setBar(color: LifeCircleColor.normal)
         if ratio <= 0.5{
             colorSetting = .alert
             self.nameLable.textColor = UIColor.black
             self.enterText.textColor = UIColor.black
             self.timestampLable.textColor = UIColor.black
+            barLeftVIew.setBar(color: colorSetting)
             self.backgroundColor = colorSetting.getUIColor()
         }
         if ratio < 0.3{
@@ -125,11 +129,12 @@ class FiremanCollectionViewCell:UICollectionViewCell{
             self.nameLable.textColor = UIColor.white
             self.enterText.textColor = UIColor.white
             self.timestampLable.textColor = UIColor.white
+            barLeftVIew.setBar(color: colorSetting)
             self.backgroundColor = colorSetting.getUIColor()
         }
         
         self.layer.borderColor = colorSetting.getUIColor().cgColor
-        barLeftVIew.setBar(color: colorSetting)
+        
     }
 }
 

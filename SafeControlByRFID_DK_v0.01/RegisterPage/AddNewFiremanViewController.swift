@@ -45,13 +45,15 @@ class AddNewFiremanViewController: UIViewController {
     var firemanTimeStamp:String?
     
     @IBAction func saveToDB(_ sender: Any) {
+        let currentTimeStamp = Date().timeIntervalSince1970
+        let firemanTimeStamp = String(currentTimeStamp)
         fireCommandDB!.addNewFireman(
             serialNumber: serialNumber.text!,
             firemanName: fireManName.text!,
             firemanPhoto: self.firemanAvatar.image!,
             firemanCallsign: firemanCallSign.text!,
             firemanRFID: fireManRFID.text!,
-            firemanTimeStamp: firemanTimeStamp!,
+            firemanTimeStamp: firemanTimeStamp,
             firemanDepartment: firemanDepartment.text!)
     }
     // 內部測試用 之後會拔掉 印出所有消防員
@@ -130,7 +132,7 @@ class AddNewFiremanViewController: UIViewController {
 //        serialNumber.text = "序號AA2234"
 //        firemanCallSign.text = "隊員呼號222"
 //        firemanDepartment.text = "隊員所屬分隊"
-        firemanTimeStamp = "16:05:44"
+//        firemanTimeStamp = "16:05:44"
     }
 ///    轉跳過來的時候 把SafeControlVC的 Model借過來掛上delegate
     func setupModel(model:SafeControlModel){
@@ -181,7 +183,7 @@ extension AddNewFiremanViewController:SafeControldelegateforAddNewFireman{
     func newFiremanRFID(uuid: String) {
         DispatchQueue.main.async{
             print("新增消防人員頁面的dataDidUpdate")
-            self.fireManRFID.text = "RFID: \(uuid)"
+            self.fireManRFID.text = "\(uuid)"
         }
     }
 }

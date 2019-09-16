@@ -55,15 +55,19 @@ class SafeControlModel:NSObject{
             if let index = bravoSquads[bravoSquadIndex].fireMans.firstIndex(where: {$0.uuid == uuid}){
                 logLeave.append(bravoSquads[bravoSquadIndex].fireMans[index])
                 bravoSquads[bravoSquadIndex].fireMans.remove(at: index)
+                print("移出消防員")
                 return true
             }
         }
+        print("沒有此消防員可以移出")
         return false
     }
     
     // 與移出成對，把消防員加入BravoSquad，加入成功＝true
     private func addFireman(by uuid:String) -> Bool{
+        print("嘗試加入消防員到小隊中")
         if let fireman = firemanDB.getFiremanforBravoSquad(by: uuid){
+            print("嘗試加入消防員到小隊中\(fireman)")
             logEnter.append(fireman)
             bravoSquads[0].fireMans.append(fireman)
 //            firemanDB.updateFiremanForBravoSquadaTime(by: uuid)

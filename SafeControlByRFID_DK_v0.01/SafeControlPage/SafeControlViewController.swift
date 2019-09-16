@@ -11,7 +11,7 @@
 import UIKit
 
 
-// 第一次收到收到RFID要把人放到清單上 第二次要移除
+// 第一次收到收到RFID要把人放到清單上 第二次要移除(先試著移除失敗就加入)
 // 這裡的資料靠 SafeControlModel 提供
 class SafeControlViewController: UIViewController{
     

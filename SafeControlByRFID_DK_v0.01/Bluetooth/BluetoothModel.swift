@@ -82,7 +82,7 @@ class BluetoothModel:NSObject{
                     }
             }
         }catch {
-            print("該死的線程錯誤ＲＲＲＲＲＲＲ\(error)")
+            print("該死的NSErrorrrrr\(error)")
         }
         
         // 不確定是不是因為丟到背景一直抱錯
