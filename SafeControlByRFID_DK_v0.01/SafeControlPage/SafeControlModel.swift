@@ -8,7 +8,7 @@
 // 人員管制頁面的資料處理
 //
 import Foundation
-
+import UIKit
 // 只是個時間點的flag的樣子
 protocol SafeControlModelDelegate{
     func dataDidUpdate()
@@ -67,7 +67,7 @@ class SafeControlModel:NSObject{
     private func addFireman(by uuid:String) -> Bool{
         print("嘗試加入消防員到小隊中")
         if let fireman = firemanDB.getFiremanforBravoSquad(by: uuid){
-            print("嘗試加入消防員到小隊中\(fireman)")
+//            print("嘗試加入消防員到小隊中\(fireman)")
             logEnter.append(fireman)
             bravoSquads[0].fireMans.append(fireman)
 //            firemanDB.updateFiremanForBravoSquadaTime(by: uuid)
@@ -96,12 +96,29 @@ extension SafeControlModel{
 extension SafeControlModel:BluetoothModelDelegate{
     func didReciveRFIDDate(uuid: String) {
         print("收到RFID:--處理中")
-        // 如果移除失敗就新增 如果移除成功就會遇到return跳出迴圈
-        if !removeFireman(by: uuid){
-            if(!addFireman(by: uuid)){
-                print("uuid not fuund in database!")
+        
+        // 檢查是不是在不該觸發嗶嗶人員的view（要import UIKit）
+        if let wd = UIApplication.shared.delegate?.window {
+            var vc = wd!.rootViewController
+            if(vc is UINavigationController){
+                vc = (vc as! UINavigationController).visibleViewController
+                
+            }
+            
+            if(vc is SafeControlViewController || vc is SafeControlLogPageViewController){
+                // 觸發消防員進入或離開火場功能
+                // 如果移除失敗就新增 如果移除成功就會遇到return跳出迴圈
+                if !removeFireman(by: uuid){
+                    if(!addFireman(by: uuid)){
+                        print("uuid not fuund in database!")
+                    }
+                }
             }
         }
+        
+        
+        
+        
         sortLogData()
         delegate?.dataDidUpdate()
         delegateForLog?.dataDidUpdate()

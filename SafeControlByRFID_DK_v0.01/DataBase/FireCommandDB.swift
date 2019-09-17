@@ -118,7 +118,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
         var currentTimeStamp = ""
         
         for fm in try! db.prepare(table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)){
-            print("讀取更新前資料庫中的時間戳\(fm[table_FIREMAN_TIMESTAMP])")
+//            print("讀取更新前資料庫中的時間戳\(fm[table_FIREMAN_TIMESTAMP])")
             currentTimeStamp.append(fm[table_FIREMAN_TIMESTAMP])
         }
         return currentTimeStamp
@@ -135,7 +135,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
         
         // 取出消防員的時間戳欄位準備更新
         var timeStampUpdate = readFiremanForBravoSquadaTime(by: uuid)
-        print("更新前資料庫時間戳\(timeStampUpdate)")
+//        print("更新前資料庫時間戳\(timeStampUpdate)")
         // 把時間戳轉成 data-> 再轉成 String 才能存入
         let currenttimeStampString = String(currentTimeStamp)
         print("轉成文字的嗶嗶時間戳\(currenttimeStampString)")
@@ -143,7 +143,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
         timeStampUpdate.append(contentsOf: ",\(currenttimeStampString)")
         
         
-        print("DB更新之後的時間戳：\(timeStampUpdate)")
+//        print("DB更新之後的時間戳：\(timeStampUpdate)")
         
         print("要更新的隊員\(fireman[table_FIREMAN_NAME])")
         do{
@@ -172,7 +172,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
             for fm in try db.prepare(fireman.where(table_FIREMAN_RFIDUUID == uuid)){
                 photoManager = PhotoManager()
                 let imageFromlocalPath = photoManager?.loadImageFromDocumentDirectory(filename: fm[table_FIREMAN_RFIDUUID]) ?? UIImage(named: "ImageInApp")!
-            print("取出的BravoSquad人員:\(fm[table_FIREMAN_NAME]),\nRFID:\(fm[table_FIREMAN_RFIDUUID]),\n時間戳:\(fm[table_FIREMAN_TIMESTAMP]),\n照片路徑:\(fm[table_FIREMAN_PHOTO_PATH]),")
+//            print("取出的BravoSquad人員:\(fm[table_FIREMAN_NAME]),\nRFID:\(fm[table_FIREMAN_RFIDUUID]),\n時間戳:\(fm[table_FIREMAN_TIMESTAMP]),\n照片路徑:\(fm[table_FIREMAN_PHOTO_PATH]),")
                 
                 return FiremanForBravoSquad(name: fm[table_FIREMAN_NAME], uuid: fm[table_FIREMAN_RFIDUUID], timestamp: fm[table_FIREMAN_TIMESTAMP], image: imageFromlocalPath)
             }

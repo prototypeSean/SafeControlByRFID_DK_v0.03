@@ -40,7 +40,7 @@ class SafeControlViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         SafeControlTableView.delegate = self
         SafeControlTableView.dataSource = self
-        model.delegate = self
+        self.model.delegate = self
     }
     
     override func viewDidLoad() {
@@ -63,7 +63,7 @@ class SafeControlViewController: UIViewController{
             /// 有點邪門的寫法，因為註冊頁面是child的關係，這樣兩個VC都會收到delegate
             destinationtoAdd.setupModel(model: model)
         }
-        
+//        self.model.delegate = nil
         
         
     }
