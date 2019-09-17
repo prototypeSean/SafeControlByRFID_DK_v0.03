@@ -59,9 +59,9 @@ class BravoSquadTableViewCell:UITableViewCell{
 extension BravoSquadTableViewCell:UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = self.bravoSquad?.fireMans.count ?? 0
-        return count
+//        return count
 //        return ppp.count
-//        return count > 12 ? count:12
+        return count > 12 ? count:12
         
     }
     

@@ -6,6 +6,8 @@
 //  Copyright © 2019 elijah tam. All rights reserved.
 //
 // 最上層顯示消防員大頭跟各種欄位的cell 暫時都不改 先吃得下DB再說
+
+// TODO: v 進入畫面Barleft會閃一下暫時無解
 import Foundation
 import UIKit
 
@@ -22,13 +24,20 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     
     override func awakeFromNib() {
         // cell的圓角
+        print("awakeFromNib awakeFromNib awakeFromNib")
         self.layer.cornerRadius = 2.0
         self.layer.borderWidth = 1
+//        self.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+//        self.barLeftVIew.barColor = LifeCircleColor.white
+        
+        
+        // 不用變化的外觀先寫在這
         self.photo.layer.borderWidth = 1
         self.photo.layer.borderColor = UIColor.white.cgColor
-//        self.enterText.sizeToFit()
-        self.backgroundColor = UIColor.clear
-        barLeftVIew.setBar(color: LifeCircleColor.normal)
+        
+//        self.backgroundColor = UIColor.clear
+        
+//        barLeftVIew.setBar(color: LifeCircleColor.white)
         super.awakeFromNib()
         
         countDown()
@@ -46,10 +55,17 @@ class FiremanCollectionViewCell:UICollectionViewCell{
             self.photo.image = nil
             timestampLable.text = nil
             timestamp = nil
+            // 如果格子回到空的狀態 重新設定外觀
+//            changeColor(by: 1) <-- 懶人寫法 但是多做了一個空欄位的狀態所以不能用ratio=1 的預設狀態
+            self.nameLable.textColor = UIColor.white
+            self.enterText.textColor = UIColor.white
+            self.timestampLable.textColor = UIColor.white
+            self.layer.borderColor = UIColor.white.cgColor
+            barLeftVIew.setBar(color: LifeCircleColor.white)
             self.backgroundColor = UIColor.clear
-//            changeColor(by: 1)
+            
             barLeftVIew.setBar(ratio: 1)
-            barLeftVIew.setBar(color: LifeCircleColor.normal)
+            
             return
         }
         self.nameLable.text = fireman!.name
@@ -109,13 +125,15 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     }
     
     private func changeColor(by ratio:Double){
+//        print("執行設定顏色＆變換顏色")
+        // 預設的格子外觀(還沒變色 或回到空欄位時) 字白色 匡綠色 背景空
         var colorSetting:LifeCircleColor = LifeCircleColor.normal
         self.nameLable.textColor = UIColor.white
         self.enterText.textColor = UIColor.white
         self.timestampLable.textColor = UIColor.white
-        self.backgroundColor = UIColor.clear
-//        self.layer.borderColor = colorSetting.getUIColor().cgColor
         barLeftVIew.setBar(color: LifeCircleColor.normal)
+        self.backgroundColor = UIColor.clear
+        
         if ratio <= 0.5{
             colorSetting = .alert
             self.nameLable.textColor = UIColor.black
@@ -133,6 +151,7 @@ class FiremanCollectionViewCell:UICollectionViewCell{
             self.backgroundColor = colorSetting.getUIColor()
         }
         
+        // 因為要吃if之後的collersetting跟隨變色所以寫在後面
         self.layer.borderColor = colorSetting.getUIColor().cgColor
         
     }
