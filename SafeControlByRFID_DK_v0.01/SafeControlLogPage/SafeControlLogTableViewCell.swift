@@ -29,6 +29,10 @@ class SafeControlLogTableViewCell:UITableViewCell{
         self.timestamp.text = getLatestedTimeStamp(fireman: fireman)
 //        self.timestamp.text = fireman.timestamp.since1970ToString()
     }
+//    func setFiremanForlogOut(fireman:FiremanForBravoSquad) {
+//        self.name.text = fireman.name
+//        self.timestamp.text = getLatestedTimeStamp(fireman: fireman)
+//    }
     func setColorSetting(colorSetting:ColorSetting){
         switch colorSetting {
         case .Enter:

@@ -49,10 +49,10 @@ class SafeControlModel:NSObject{
     
     // 吃uuid當參數 試著把人從小隊中移出 並寫入logLeave中，移出成功＝true
     private func removeFireman(by uuid:String) -> Bool{
-        // test
-        //return false
         for bravoSquadIndex in 0 ..< bravoSquads.count{
+            // 從bravoSquads的陣列中遍歷，找uuid符合的fireman
             if let index = bravoSquads[bravoSquadIndex].fireMans.firstIndex(where: {$0.uuid == uuid}){
+                // 找到之後把他加離開的log陣列中 並且從bravoSquad中移出
                 logLeave.append(bravoSquads[bravoSquadIndex].fireMans[index])
                 bravoSquads[bravoSquadIndex].fireMans.remove(at: index)
                 print("移出消防員")

@@ -25,6 +25,7 @@ class SafeControlLogPageViewController:UIViewController{
         safeControlLeaveLogTableView.restorationIdentifier = "leave"
     }
     
+    // 邪門的delegate用法在這
     func setupModel(model:SafeControlModel){
         self.model = model
         model.delegateForLog = self
