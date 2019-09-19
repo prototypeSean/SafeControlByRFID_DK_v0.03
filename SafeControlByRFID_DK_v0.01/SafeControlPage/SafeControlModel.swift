@@ -55,10 +55,14 @@ class SafeControlModel:NSObject{
                 // 找到之後把他加離開的log陣列中 並且從bravoSquad中移出
                 logLeave.append(bravoSquads[bravoSquadIndex].fireMans[index])
                 bravoSquads[bravoSquadIndex].fireMans.remove(at: index)
+                // 更新資料庫移出ＬＯＧ
+                firemanDB.updateFiremanForBravoSquadaTimeOut(by: uuid)
                 print("移出消防員")
                 return true
             }
         }
+        
+        
         print("沒有此消防員可以移出")
         return false
     }
@@ -66,6 +70,12 @@ class SafeControlModel:NSObject{
     // 與移出成對，把消防員加入BravoSquad，加入成功＝true
     private func addFireman(by uuid:String) -> Bool{
         print("嘗試加入消防員到小隊中")
+        // 這個 getFiremanforBravoSquad 包含了畢畢時間存入DB
+        // 嗶嗶的時候要更新log以外 要存入資料庫
+        // log 頁面要顯示歷史紀錄
+        
+        
+        
         if let fireman = firemanDB.getFiremanforBravoSquad(by: uuid){
 //            print("嘗試加入消防員到小隊中\(fireman)")
             logEnter.append(fireman)
@@ -75,6 +85,25 @@ class SafeControlModel:NSObject{
         }
         return false
     }
+    
+    func getFiremanEnterLog() -> Array<FiremanForBravoSquad>{
+        var enterLog:Array<FiremanForBravoSquad>?
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        return enterLog!
+    }
+    
     
     private func sortLogData(){
         logEnter.sort(by: {$0.uuid > $1.uuid})

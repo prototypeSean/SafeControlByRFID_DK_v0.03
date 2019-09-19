@@ -9,8 +9,8 @@
 import Foundation
 import SQLite
 
-class FirecommandDatabase:PhotoPathJustSaved {
-    
+class FirecommandDatabase {
+//                       :PhotoPathJustSaved
     var firemanPhotoPath:URL?
     var photoManager:PhotoManager?
 
@@ -21,9 +21,9 @@ class FirecommandDatabase:PhotoPathJustSaved {
     
     // delegate 來的 func
     // TODO: 暫時沒用，待修
-    func getPhotoPath(photoPath: URL) {
-        firemanPhotoPath = photoPath
-    }
+//    func getPhotoPath(photoPath: URL) {
+//        firemanPhotoPath = photoPath
+//    }
     
     func connectDatabase(){
     // 把DB存到(或新建)使用者檔案路徑中的db.sqlite3
@@ -46,6 +46,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
     let table_FIREMAN_CALLSIGN = Expression<String>("firemanCallsign")
     let table_FIREMAN_RFIDUUID = Expression<String>("firemanRFID")
     let table_FIREMAN_TIMESTAMP = Expression<String>("firemanTimeStamp")
+    let table_FIREMAN_TIMESTAMPOUT = Expression<String>("firemanTimeStampOUT")
     let table_FIREMAN_DEPARTMENT = Expression<String>("firemanDepartment")
     
     // 創建表格
@@ -58,7 +59,8 @@ class FirecommandDatabase:PhotoPathJustSaved {
                 table.column(table_FIREMAN_PHOTO_PATH)
                 table.column(table_FIREMAN_CALLSIGN)
                 table.column(table_FIREMAN_RFIDUUID)
-                table.column(table_FIREMAN_TIMESTAMP, defaultValue: "CreateDefaultValue")
+                table.column(table_FIREMAN_TIMESTAMP, defaultValue: "初始in時間戳欄位")
+                table.column(table_FIREMAN_TIMESTAMPOUT, defaultValue: "初始out時間戳欄位")
                 table.column(table_FIREMAN_DEPARTMENT)
             })
             print("建立 FIREMAN 表格成功")
@@ -77,6 +79,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
                        firemanCallsign:String,
                        firemanRFID:String,
                        firemanTimeStamp:String,
+                       firemanTimeStampOut:String,
                        firemanDepartment:String){
         // 讓PhotoManager介入把照片存入檔案
         photoManager = PhotoManager()
@@ -84,7 +87,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
         let path = photoManager!.saveImageToDocumentDirectory(image: firemanPhoto, filename: firemanRFID)
         
         // 有空再處理TODO:-- 這行對應上面的暫時沒用,有空再處理（存好之後把 URL 傳入此處變數）
-        photoManager?.delegate=self
+//        photoManager?.delegate=self
         
         
         // table_FIREMAN_PHOTO_PATH 要把 URL 轉成純文字
@@ -95,6 +98,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
             table_FIREMAN_CALLSIGN <- firemanCallsign,
             table_FIREMAN_RFIDUUID <- firemanRFID,
             table_FIREMAN_TIMESTAMP <- firemanTimeStamp,
+            table_FIREMAN_TIMESTAMPOUT <- firemanTimeStampOut,
             table_FIREMAN_DEPARTMENT <- firemanDepartment)
         
         do{
@@ -108,15 +112,36 @@ class FirecommandDatabase:PhotoPathJustSaved {
     
     // 遍歷
     func allFireman(){
+
         for item in (try! db.prepare(table_FIREMAN)){
-            print("全部的消防員in table_FIREMAN\n id:\(item[table_FIREMAN_ID])\n,SN:\(item[table_FIREMAN_SN])\n,NAME:\(item[table_FIREMAN_NAME])\n,PhotoPaht:\(item[table_FIREMAN_PHOTO_PATH])\n,CALL SIGN:\(item[table_FIREMAN_CALLSIGN])\n,RFID:\(item[table_FIREMAN_RFIDUUID])\n,DEPARTMENT:\(item[table_FIREMAN_DEPARTMENT]),時間戳:\(item[table_FIREMAN_TIMESTAMP])")
+            print("消防員in table_FIREMAN\n id:\(item[table_FIREMAN_ID])\n,SN:\(item[table_FIREMAN_SN])\n,NAME:\(item[table_FIREMAN_NAME])\n,PhotoPaht:\(item[table_FIREMAN_PHOTO_PATH])\n,CALL SIGN:\(item[table_FIREMAN_CALLSIGN])\n,RFID:\(item[table_FIREMAN_RFIDUUID])\n,DEPARTMENT:\(item[table_FIREMAN_DEPARTMENT]),時間戳進入:\(item[table_FIREMAN_TIMESTAMP]),時間戳出:\(item[table_FIREMAN_TIMESTAMPOUT])")
         }
     }
-    // 讀取
+    
+    func firemanForLog()->Array<FiremanForBravoSquad>{
+        var arrayFFBS:Array<FiremanForBravoSquad> = []
+        
+        let fireman = Table("table_FIREMAN")
+        
+        for fm in (try! db.prepare(table_FIREMAN)){
+            
+            for fm2 in try! db.prepare(fireman.where(table_FIREMAN_RFIDUUID == fm[table_FIREMAN_RFIDUUID])){
+                photoManager = PhotoManager()
+                let imageFromlocalPath = photoManager?.loadImageFromDocumentDirectory(filename: fm[table_FIREMAN_RFIDUUID]) ?? UIImage(named: "ImageInApp")!
+                
+                
+                
+                let aaa = FiremanForBravoSquad(name: fm[table_FIREMAN_NAME], uuid: fm[table_FIREMAN_RFIDUUID], timestamp: fm[table_FIREMAN_TIMESTAMP], timestampout: fm[table_FIREMAN_TIMESTAMPOUT], image: imageFromlocalPath)
+                arrayFFBS.append(aaa)
+            }
+        }
+        return arrayFFBS
+    }
+    
+    // MARK : 更新時間戳（進入火場）
+    // 用uuid抓出特定的消防員時間戳欄位
     func readFiremanForBravoSquadaTime(by uuid:String) -> String{
-        
         var currentTimeStamp = ""
-        
         for fm in try! db.prepare(table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)){
 //            print("讀取更新前資料庫中的時間戳\(fm[table_FIREMAN_TIMESTAMP])")
             currentTimeStamp.append(fm[table_FIREMAN_TIMESTAMP])
@@ -126,30 +151,23 @@ class FirecommandDatabase:PhotoPathJustSaved {
     
     // 更新-- 每次消防員逼逼的時候要更新(插入現在時間戳到timeStamp 欄位）
     func updateFiremanForBravoSquadaTime(by uuid:String){
-        
         let fireman = table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)
-        
         // 當前時間
         let currentTimeStamp = Date().timeIntervalSince1970
         print("嗶嗶時間戳\(currentTimeStamp)")
-        
         // 取出消防員的時間戳欄位準備更新
         var timeStampUpdate = readFiremanForBravoSquadaTime(by: uuid)
 //        print("更新前資料庫時間戳\(timeStampUpdate)")
         // 把時間戳轉成 data-> 再轉成 String 才能存入
         let currenttimeStampString = String(currentTimeStamp)
         print("轉成文字的嗶嗶時間戳\(currenttimeStampString)")
-        
         timeStampUpdate.append(contentsOf: ",\(currenttimeStampString)")
-        
-        
 //        print("DB更新之後的時間戳：\(timeStampUpdate)")
-        
         print("要更新的隊員\(fireman[table_FIREMAN_NAME])")
         do{
             let updatedRows = try db.run(fireman.update(table_FIREMAN_TIMESTAMP <- timeStampUpdate))
             if updatedRows > 0 {
-                print("插入時間戳成功")
+                print("插入進入時間戳成功")
             }else{
                 print("沒有發現消防員\(uuid)")
             }
@@ -158,7 +176,40 @@ class FirecommandDatabase:PhotoPathJustSaved {
         }
     }
     
+    //MARK: 更新時間戳（離開火場）(這邊很蠢 其實可以合併為一組func但是沒時間了先這樣複製大法)
+    // 用uuid抓出特定的消防員時間戳欄位
+    func readFiremanForBravoSquadaTimeOut(by uuid:String) -> String{
+        var currentTimeStamp = ""
+        for fm in try! db.prepare(table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)){
+            currentTimeStamp.append(fm[table_FIREMAN_TIMESTAMPOUT])
+        }
+        return currentTimeStamp
+    }
     
+    // 更新-- 每次消防員逼逼的時候要更新(插入現在時間戳到timeStamp 欄位）
+    func updateFiremanForBravoSquadaTimeOut(by uuid:String){
+        let fireman = table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)
+        // 當前時間
+        let currentTimeStamp = Date().timeIntervalSince1970
+        print("嗶嗶時間戳\(currentTimeStamp)")
+        // 取出消防員的時間戳欄位準備更新
+        var timeStampUpdate = readFiremanForBravoSquadaTimeOut(by: uuid)
+        // 把時間戳轉成 data-> 再轉成 String 才能存入
+        let currenttimeStampString = String(currentTimeStamp)
+        print("轉成文字的嗶嗶時間戳\(currenttimeStampString)")
+        timeStampUpdate.append(contentsOf: ",\(currenttimeStampString)")
+        print("要更新的隊員\(fireman[table_FIREMAN_NAME])")
+        do{
+            let updatedRows = try db.run(fireman.update(table_FIREMAN_TIMESTAMPOUT <- timeStampUpdate))
+            if updatedRows > 0 {
+                print("插入離開時間戳成功")
+            }else{
+                print("沒有發現消防員\(uuid)")
+            }
+        }catch{
+            print("插入消防員時間戳失敗:\(error)")
+        }
+    }
     
 
     // 用 RFIDUUID 來找從資料庫撈安管頁面需要的部分消防員資料
@@ -174,7 +225,7 @@ class FirecommandDatabase:PhotoPathJustSaved {
                 let imageFromlocalPath = photoManager?.loadImageFromDocumentDirectory(filename: fm[table_FIREMAN_RFIDUUID]) ?? UIImage(named: "ImageInApp")!
 //            print("取出的BravoSquad人員:\(fm[table_FIREMAN_NAME]),\nRFID:\(fm[table_FIREMAN_RFIDUUID]),\n時間戳:\(fm[table_FIREMAN_TIMESTAMP]),\n照片路徑:\(fm[table_FIREMAN_PHOTO_PATH]),")
                 
-                return FiremanForBravoSquad(name: fm[table_FIREMAN_NAME], uuid: fm[table_FIREMAN_RFIDUUID], timestamp: fm[table_FIREMAN_TIMESTAMP], image: imageFromlocalPath)
+                return FiremanForBravoSquad(name: fm[table_FIREMAN_NAME], uuid: fm[table_FIREMAN_RFIDUUID], timestamp: fm[table_FIREMAN_TIMESTAMP], timestampout: fm[table_FIREMAN_TIMESTAMPOUT], image: imageFromlocalPath)
             }
         }catch{
             print("取出FiremanforBravoSquad錯誤\(error)")
@@ -189,6 +240,7 @@ public struct FiremanForBravoSquad {
     let name:String
     let uuid:String
     let timestamp:String
+    let timestampout:String
     let image:UIImage
 }
 
@@ -197,6 +249,23 @@ public func getLatestedTimeStamp(fireman:FiremanForBravoSquad) -> String{
     
     // 從資料庫取出並轉成陣列
     let dateStringArray = fireman.timestamp.components(separatedBy: ",")
+    // 最新的一筆
+    let latestTimeStamp = dateStringArray.last
+    // 純文字轉乘Double = 時間戳 因為本來內容就是時間戳 轉成double就好了
+    let doubleLtestTimeStamp = Double(latestTimeStamp!)!
+    
+    // 把最後一筆時間戳轉成時間格式
+    let dateFormater:DateFormatter = DateFormatter()
+    dateFormater.dateFormat = "HH:mm:ss"
+    let dateTimeLabel = Date(timeIntervalSince1970: doubleLtestTimeStamp)
+    let timestampLableText = dateFormater.string(from: dateTimeLabel)
+    return timestampLableText
+}
+
+public func getLatestedTimeStampOut(fireman:FiremanForBravoSquad) -> String{
+    
+    // 從資料庫取出並轉成陣列
+    let dateStringArray = fireman.timestampout.components(separatedBy: ",")
     // 最新的一筆
     let latestTimeStamp = dateStringArray.last
     // 純文字轉乘Double = 時間戳 因為本來內容就是時間戳 轉成double就好了

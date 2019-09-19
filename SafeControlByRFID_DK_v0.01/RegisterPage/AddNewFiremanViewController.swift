@@ -59,15 +59,16 @@ class AddNewFiremanViewController: UIViewController {
     }
     
     func addCurrentFireMan(){
-        let currentTimeStamp = Date().timeIntervalSince1970
-        let firemanTimeStamp = String(currentTimeStamp)
+//        let currentTimeStamp = Date().timeIntervalSince1970
+//        let currentTimeStampString = String(currentTimeStamp)
         fireCommandDB!.addNewFireman(
             serialNumber: serialNumber.text!,
             firemanName: fireManName.text!,
             firemanPhoto: self.firemanAvatar.image!,
             firemanCallsign: firemanCallSign.text!,
             firemanRFID: fireManRFID.text!,
-            firemanTimeStamp: firemanTimeStamp,
+            firemanTimeStamp: "",
+            firemanTimeStampOut: "",
             firemanDepartment: firemanDepartment.text!)
     }
     
@@ -89,7 +90,7 @@ class AddNewFiremanViewController: UIViewController {
         // 只有橫向＆＆鍵盤升起才需要抬高view
         if keyboardSize != nil && UIDevice.current.orientation.isLandscape{
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= 120
+                self.view.frame.origin.y -= 110
             }
         }
     }
@@ -116,6 +117,9 @@ class AddNewFiremanViewController: UIViewController {
 //        }
 //    }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(false)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,6 +184,7 @@ class AddNewFiremanViewController: UIViewController {
 extension AddNewFiremanViewController: CustomImagePickerDelegate {
     func didSelect(image: UIImage?) {
         self.firemanAvatar.image = image
+//            ?? UIImage.init(named: "ImagePlaceholder")
         
     }
 }

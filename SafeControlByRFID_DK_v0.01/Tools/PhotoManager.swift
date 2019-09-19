@@ -62,6 +62,7 @@ class PhotoManager: NSObject {
         let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
         if let dirPath = paths.first{
             let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent("firecommandPhotos/\(filename)")
+            // 如果取出image是 nil 就顯示這個
             guard let image = UIImage(contentsOfFile: imageURL.path) else { return  UIImage.init(named: "ImageInApp")!}
             print("嘗試讀取照片\(imageURL)")
             return image
