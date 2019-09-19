@@ -329,10 +329,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikW-em-1ED">
-                                <rect key="frame" x="0.0" y="942" width="164" height="41"/>
+                                <rect key="frame" x="0.0" y="983" width="40" height="41"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="LUi-4x-fBV"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="印出FiremanDB">
-                                    <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.17254901959999999" green="0.1960784314" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="printDB:" destination="iGh-xc-vsU" eventType="touchUpInside" id="jAV-Th-YY0"/>
@@ -366,7 +369,7 @@
                             <constraint firstItem="soz-RS-wZO" firstAttribute="height" secondItem="Syz-m7-vxF" secondAttribute="height" id="rwd-2W-WeW"/>
                             <constraint firstItem="soz-RS-wZO" firstAttribute="top" secondItem="82P-dG-mWZ" secondAttribute="bottom" constant="10" id="sSQ-Za-03k"/>
                             <constraint firstItem="82P-dG-mWZ" firstAttribute="leading" secondItem="PlJ-8R-ngh" secondAttribute="leading" id="v3l-qI-G2I"/>
-                            <constraint firstItem="ikW-em-1ED" firstAttribute="bottom" secondItem="GCr-db-tQe" secondAttribute="top" id="xTU-rr-xH8"/>
+                            <constraint firstItem="ikW-em-1ED" firstAttribute="bottom" secondItem="GCr-db-tQe" secondAttribute="bottom" id="xTU-rr-xH8"/>
                             <constraint firstItem="sJO-Qr-1ZD" firstAttribute="width" secondItem="6uS-UJ-NLf" secondAttribute="width" id="zdL-Vs-LY6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="y3K-T9-hMV"/>
