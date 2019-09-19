@@ -45,6 +45,20 @@ class AddNewFiremanViewController: UIViewController {
     var firemanTimeStamp:String?
     
     @IBAction func saveToDB(_ sender: Any) {
+        // 多一層彈出視窗 確認才寫入
+        let controller = UIAlertController(title: "新增一名消防員", message: "確認資料無誤", preferredStyle: .alert)
+        // 利用 UIAlertAction 的第三個參數 handler 傳入的 closure 控制點選按鈕要做的事情。
+        let okAction = UIAlertAction(title: "確認存入", style: .default){
+            (_) in self.addCurrentFireMan()
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
+        controller.addAction(okAction)
+        controller.addAction(cancelAction)
+        
+        present(controller, animated: true, completion: nil)
+    }
+    
+    func addCurrentFireMan(){
         let currentTimeStamp = Date().timeIntervalSince1970
         let firemanTimeStamp = String(currentTimeStamp)
         fireCommandDB!.addNewFireman(
@@ -56,6 +70,7 @@ class AddNewFiremanViewController: UIViewController {
             firemanTimeStamp: firemanTimeStamp,
             firemanDepartment: firemanDepartment.text!)
     }
+    
     // 內部測試用 之後會拔掉 印出所有消防員
     @IBAction func printDB(_ sender: Any) {
         fireCommandDB?.allFireman()
