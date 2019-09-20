@@ -73,7 +73,7 @@ class FiremanCollectionViewCell:UICollectionViewCell{
         
         // 從資料庫讀出時間戳字串-->取最後一筆-->拿來計算(會取到逼逼出來的？)
         // 從資料庫取出並轉成陣列
-        let dateStringArray = fireman!.timestamp.components(separatedBy: ",")
+        let dateStringArray = fireman!.timestamp.split(separator: ",")
         
         // 最新的一筆拿來計算？
         let latestTimeStamp = dateStringArray.last

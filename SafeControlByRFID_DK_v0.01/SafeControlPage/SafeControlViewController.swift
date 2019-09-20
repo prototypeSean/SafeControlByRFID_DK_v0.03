@@ -54,6 +54,7 @@ class SafeControlViewController: UIViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "segueToLogPage"{
+            self.model.syncBravoSquadLog()
             let destinationtolog = segue.destination as! SafeControlLogPageViewController
             destinationtolog.setupModel(model: model)
         }
@@ -116,6 +117,7 @@ extension SafeControlViewController:SafeControlModelDelegate{
         DispatchQueue.main.async { [weak self] in
             self?.SafeControlTableView.reloadData()
             print("更新資料by Model delegate & 已執行 -- reloadData")
+        
         }
     }
 }

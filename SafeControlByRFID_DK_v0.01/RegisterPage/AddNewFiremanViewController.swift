@@ -41,6 +41,13 @@ class AddNewFiremanViewController: UIViewController {
     @IBOutlet weak var firemanCallSign: UITextField!
     @IBOutlet weak var firemanDepartment: UITextField!
     
+    // 暫時區
+    @IBAction func testingLog(_ sender: UIButton) {
+        print(fireCommandDB?.firemanForLog(logType: .enter))
+        print(fireCommandDB?.firemanForLog(logType: .exit))
+    }
+    
+    // 暫時區
     
     var firemanTimeStamp:String?
     
@@ -202,7 +209,7 @@ extension AddNewFiremanViewController: PhotoPathJustSaved{
 extension AddNewFiremanViewController:SafeControldelegateforAddNewFireman{
     func newFiremanRFID(uuid: String) {
         DispatchQueue.main.async{
-            print("新增消防人員頁面的dataDidUpdate")
+            print("註冊人員頁面的dataDidUpdate")
             self.fireManRFID.text = "\(uuid)"
         }
     }

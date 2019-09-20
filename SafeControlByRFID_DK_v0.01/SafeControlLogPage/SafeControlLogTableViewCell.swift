@@ -24,11 +24,20 @@ class SafeControlLogTableViewCell:UITableViewCell{
     }
     var colorSetting:ColorSetting = .Enter
     
+    // 把單一個cell要顯示的東西從FiremanForBravoSquad 分析出來
     func setFireman(fireman:FiremanForBravoSquad){
         self.name.text = fireman.name
         self.timestamp.text = getLatestedTimeStamp(fireman: fireman)
 //        self.timestamp.text = fireman.timestamp.since1970ToString()
     }
+    
+    func setFiremanOut(fireman:FiremanForBravoSquad){
+        self.name.text = fireman.name
+        self.timestamp.text = getLatestedTimeStampOut(fireman: fireman)
+        //        self.timestamp.text = fireman.timestamp.since1970ToString()
+    }
+    
+    
 //    func setFiremanForlogOut(fireman:FiremanForBravoSquad) {
 //        self.name.text = fireman.name
 //        self.timestamp.text = getLatestedTimeStamp(fireman: fireman)

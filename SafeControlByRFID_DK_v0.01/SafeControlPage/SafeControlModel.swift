@@ -35,6 +35,9 @@ class SafeControlModel:NSObject{
     private(set) var logEnter:Array<FiremanForBravoSquad> = []
     private(set) var logLeave:Array<FiremanForBravoSquad> = []
     
+    
+    
+    
     // 初始化的時候把藍芽連上 把要顯示的各小隊跟隊員準備好
     override init() {
         super.init()
@@ -53,7 +56,7 @@ class SafeControlModel:NSObject{
             // 從bravoSquads的陣列中遍歷，找uuid符合的fireman
             if let index = bravoSquads[bravoSquadIndex].fireMans.firstIndex(where: {$0.uuid == uuid}){
                 // 找到之後把他加離開的log陣列中 並且從bravoSquad中移出
-                logLeave.append(bravoSquads[bravoSquadIndex].fireMans[index])
+//                logLeave.append(bravoSquads[bravoSquadIndex].fireMans[index])
                 bravoSquads[bravoSquadIndex].fireMans.remove(at: index)
                 // 更新資料庫移出ＬＯＧ
                 firemanDB.updateFiremanForBravoSquadaTimeOut(by: uuid)
@@ -78,7 +81,7 @@ class SafeControlModel:NSObject{
         
         if let fireman = firemanDB.getFiremanforBravoSquad(by: uuid){
 //            print("嘗試加入消防員到小隊中\(fireman)")
-            logEnter.append(fireman)
+//            logEnter.append(fireman)
             bravoSquads[0].fireMans.append(fireman)
 //            firemanDB.updateFiremanForBravoSquadaTime(by: uuid)
             return true
@@ -86,23 +89,11 @@ class SafeControlModel:NSObject{
         return false
     }
     
-    func getFiremanEnterLog() -> Array<FiremanForBravoSquad>{
-        var enterLog:Array<FiremanForBravoSquad>?
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        return enterLog!
-    }
+//    func getFiremanEnterLog() -> Array<FiremanForBravoSquad>{
+//        var enterLog:Array<FiremanForBravoSquad>?
+//
+//        return enterLog!
+//    }
     
     
     private func sortLogData(){
@@ -119,6 +110,13 @@ extension SafeControlModel{
     func getBravoSquads() -> Array<BravoSquad>{
         return self.bravoSquads
     }
+    
+    // 不確定什麼時候該把資料庫中的log傳到 array 裡面, 不能在init因為第一次開app時資料庫還不存在
+    func syncBravoSquadLog(){
+        logEnter = firemanDB.firemanForLog(logType: .enter)
+        logLeave = firemanDB.firemanForLog(logType: .exit)
+    }
+    
 }
 
 // delegate from bluetooth 收到藍牙傳來的UUID 就新增或移除人員,然後再給兩個ＶＣ一根旗子讓他們刷新頁面
@@ -135,8 +133,8 @@ extension SafeControlModel:BluetoothModelDelegate{
             }
             
             if(vc is SafeControlViewController || vc is SafeControlLogPageViewController){
-                // 觸發消防員進入或離開火場功能
-                // 如果移除失敗就新增 如果移除成功就會遇到return跳出迴圈
+                // 觸發消防員進入或離開火場功能 嗶嗶就先移除，失敗再新增
+                // 如果移除成功就會遇到return跳出迴圈
                 if !removeFireman(by: uuid){
                     if(!addFireman(by: uuid)){
                         print("uuid not fuund in database!")
@@ -144,10 +142,8 @@ extension SafeControlModel:BluetoothModelDelegate{
                 }
             }
         }
-        
-        
-        
-        
+        //畢畢的時候也要同步一次（會不會資料量太大？）
+        syncBravoSquadLog()
         sortLogData()
         delegate?.dataDidUpdate()
         delegateForLog?.dataDidUpdate()
