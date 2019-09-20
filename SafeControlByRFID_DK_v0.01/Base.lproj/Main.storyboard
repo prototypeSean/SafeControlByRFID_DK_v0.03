@@ -402,7 +402,7 @@
             </objects>
             <point key="canvasLocation" x="85.611510791366911" y="-6.4748201438848927"/>
         </scene>
-        <!--Title-->
+        <!--進出紀錄-->
         <scene sceneID="Ao5-fI-KTF">
             <objects>
                 <viewController id="xgx-L1-0cN" customClass="SafeControlLogPageViewController" customModule="SafeControlByRFID_DK_v0_01" customModuleProvider="target" sceneMemberID="viewController">
@@ -560,7 +560,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5R9-ju-8WA"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="Pb1-uo-nus">
+                    <navigationItem key="navigationItem" title="進出紀錄" id="Pb1-uo-nus">
                         <barButtonItem key="rightBarButtonItem" title="reload" id="2cj-Bm-R0w">
                             <connections>
                                 <action selector="reload:" destination="xgx-L1-0cN" id="MDv-Ir-28S"/>

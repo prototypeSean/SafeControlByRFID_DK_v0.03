@@ -280,12 +280,12 @@ public struct FiremanForBravoSquad {
     let image:UIImage
 }
 
-// 取出最新一筆進入火場時間
+// MARK: 取出最新一筆進入火場時間 (每次滾動都會跑一次這func可能日後會有問題)
 public func getLatestedTimeStamp(fireman:FiremanForBravoSquad) -> String{
     
     // 從資料庫取出並轉成陣列
     let dateStringArray = fireman.timestamp.split(separator: ",")
-    print("getLatestedTimeStamp!!!!\(dateStringArray)")
+//    print("getLatestedTimeStamp!!!!\(dateStringArray)")
     // 最新的一筆
     let latestTimeStamp = dateStringArray.last
     // 純文字轉乘Double = 時間戳 因為本來內容就是時間戳 轉成double就好了

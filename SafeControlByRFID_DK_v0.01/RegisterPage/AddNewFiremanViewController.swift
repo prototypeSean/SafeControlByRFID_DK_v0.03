@@ -57,6 +57,12 @@ class AddNewFiremanViewController: UIViewController {
         // 利用 UIAlertAction 的第三個參數 handler 傳入的 closure 控制點選按鈕要做的事情。
         let okAction = UIAlertAction(title: "確認存入", style: .default){
             (_) in self.addCurrentFireMan()
+            self.firemanAvatar.image = UIImage(named: "ImagePlaceholder")
+            self.firemanCallSign.text = ""
+            self.firemanCallSign.text = ""
+            self.fireManName.text = ""
+            self.fireManRFID.text = ""
+            self.firemanDepartment.text = ""
         }
         let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
         controller.addAction(okAction)

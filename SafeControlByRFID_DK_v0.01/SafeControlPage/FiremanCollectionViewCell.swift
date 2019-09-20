@@ -24,7 +24,6 @@ class FiremanCollectionViewCell:UICollectionViewCell{
     
     override func awakeFromNib() {
         // cell的圓角
-        print("awakeFromNib awakeFromNib awakeFromNib")
         self.layer.cornerRadius = 2.0
         self.layer.borderWidth = 1.2
 //        self.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
