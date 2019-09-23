@@ -281,6 +281,10 @@ public struct FiremanForBravoSquad {
 }
 
 // MARK: 取出最新一筆進入火場時間 (每次滾動都會跑一次這func可能日後會有問題)
+/// 獲取最新一筆進入的時間戳
+///
+/// - Parameter fireman: FiremanForBravoSquad
+/// - Returns: 純文字時間戳
 public func getLatestedTimeStamp(fireman:FiremanForBravoSquad) -> String{
     
     // 從資料庫取出並轉成陣列
@@ -300,11 +304,16 @@ public func getLatestedTimeStamp(fireman:FiremanForBravoSquad) -> String{
 }
 
 // 已經在removeFireman裡面更新DB 所以取出最後一筆離開火場資料暫時用不到??
+
+/// 獲取最新一筆離開的時間戳
+///
+/// - Parameter fireman: FiremanForBravoSquad
+/// - Returns: 純文字時間戳
 public func getLatestedTimeStampOut(fireman:FiremanForBravoSquad) -> String{
     
     // 從資料庫取出並轉成陣列
     let dateStringArray = fireman.timestampout.split(separator: ",")
-    print("getLatestedTimeStampOut!!!!\(dateStringArray)")
+//    print("getLatestedTimeStampOut!!!!\(dateStringArray)")
     // 最新的一筆
     let latestTimeStamp = dateStringArray.last
     // 純文字轉Double = 時間戳 因為本來內容就是時間戳 轉成double就好了

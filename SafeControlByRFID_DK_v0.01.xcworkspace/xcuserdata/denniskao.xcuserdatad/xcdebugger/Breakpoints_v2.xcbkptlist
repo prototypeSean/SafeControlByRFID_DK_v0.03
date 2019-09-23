@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SafeControlByRFID_DK_v0.01/SafeControlLogPage/SafeControlLogPageViewController.swift"
-            timestampString = "590664845.611802"
+            timestampString = "590913443.95704"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,43 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SafeControlByRFID_DK_v0.01/SafeControlLogPage/SafeControlLogPageViewController.swift"
-            timestampString = "590664845.612204"
+            timestampString = "590913443.957449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SafeControlByRFID_DK_v0.01/SafeControlLogPage/SafeControlLogPageViewController.swift"
-            timestampString = "590664845.612474"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SafeControlByRFID_DK_v0.01/SafeControlLogPage/SafeControlLogPageViewController.swift"
-            timestampString = "590664845.612735"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,13 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SafeControlByRFID_DK_v0.01/DataBase/FireCommandDB.swift"
-            timestampString = "590664845.612985"
+            timestampString = "590898419.475665"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "311"
             endingLineNumber = "311"
-            landmarkName = "getLatestedTimeStampOut(fireman:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
