@@ -27,7 +27,7 @@ class SafeControlModel:NSObject{
     
     
     // 連上資料庫（這邊要用let還是var尚存疑）
-    var firemanDB = FirecommandDatabase()
+    let firemanDB = FirecommandDatabase()
     
     // 所有的小隊-- 每個小隊一個tableViewCell 每個Cell一個BravoSquad
     private var bravoSquads:Array<BravoSquad> = []
@@ -113,8 +113,8 @@ extension SafeControlModel{
     
     // 不確定什麼時候該把資料庫中的log傳到 array 裡面, 不能在init因為第一次開app時資料庫還不存在
     func syncBravoSquadLog(){
-        logEnter = firemanDB.firemanForLog(logType: .enter)
-        logLeave = firemanDB.firemanForLog(logType: .exit)
+        logEnter = firemanDB.arrayEnter
+        logLeave = firemanDB.arrayExit
     }
     
 }

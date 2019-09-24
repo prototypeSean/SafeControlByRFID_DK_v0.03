@@ -43,8 +43,8 @@ class AddNewFiremanViewController: UIViewController {
     
     // 暫時區
     @IBAction func testingLog(_ sender: UIButton) {
-        print(fireCommandDB?.firemanForLog(logType: .enter))
-        print(fireCommandDB?.firemanForLog(logType: .exit))
+        print(fireCommandDB?.arrayEnter as Any)
+        print(fireCommandDB?.arrayExit as Any)
     }
     
     // 暫時區

@@ -15,12 +15,16 @@ class SafeControlLogPageViewController:UIViewController{
     private var model:SafeControlModel?
     
     var sections:(enter:[String],exit:[String])=([],[])
-    
-    
+    var finalArrayEnter:Array<FiremanForLog>=[]
+    var finalArrayLeave:Array<FiremanForLog>=[]
+
     
     @IBAction func reload(_ sender: UIBarButtonItem) {
-        countSections()
-        makeSectionCell(logSectionCase: .enter)
+//        countSections()
+//        makeSectionCell(logSectionCase: .enter)
+//        model?.firemanDB.allfiremanForLogPage()
+        print("\(finalArrayEnter)")
+        print("\(finalArrayLeave)")
     }
     
     
@@ -32,8 +36,13 @@ class SafeControlLogPageViewController:UIViewController{
         safeControlLeaveLogTableView.delegate = self
         safeControlLeaveLogTableView.dataSource = self
         safeControlLeaveLogTableView.restorationIdentifier = "leave"
-        
-        sections = countSections()
+        model?.firemanDB.allfiremanForLogPage()
+        finalArrayEnter.removeAll()
+        finalArrayLeave.removeAll()
+        finalArrayEnter = (model?.firemanDB.makeSectionCellEnter)!
+        finalArrayLeave = (model?.firemanDB.makeSectionCellExit)!
+        print("1233")
+//        sections = countSections()
     }
     
     // 邪門的delegate用法在這
@@ -49,13 +58,15 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.restorationIdentifier == "enter"{
 //            print("model?.logEnter\(String(describing: model?.logEnter))")
-            print("計算每個區域有多少row-- in\(section) = \(self.makeSectionCell(logSectionCase: .enter)[section].man.count)")
-            return self.makeSectionCell(logSectionCase: .enter)[section].man.count
+            print("計算每個區域有多少row-- in\(section) = \(finalArrayEnter[section].fireman.count)")
+            
+            return finalArrayEnter[section].fireman.count
+//            return self.makeSectionCell(logSectionCase: .enter)[section].man.count
 //            return model?.logEnter.count ?? 0
         }
 //        print("model?.logLeave\(String(describing: model?.logLeave))")
-        print("計算每個區域有多少row-- exit\(self.makeSectionCell(logSectionCase: .enter)[section].man.count)")
-        return self.makeSectionCell(logSectionCase: .exit)[section].man.count
+        print("計算每個區域有多少row-- exit\(finalArrayLeave[section].fireman.count)")
+        return finalArrayLeave[section].fireman.count
 //        return model?.logLeave.count ?? 0
     }
     
@@ -63,13 +74,13 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
         if tableView.restorationIdentifier == "enter"{
 //            let ee = countSections().enter
 //            print("進入表格有幾區\(ee.count)")
-            return sections.enter.count
+            return finalArrayEnter.count
         }
         else{
 //            let ee = countSections().exit
 //            print("撤離表格有幾區\(ee.count)")
 //            return ee.count
-            return sections.exit.count
+            return finalArrayLeave.count
         }
     }
     
@@ -99,9 +110,9 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
         headerLabel.textColor = UIColor.white
 //        headerLabel.addBorderBottom(size: 2.0, color: UIColor.white)
         if tableView.restorationIdentifier == "enter"{
-            headerLabel.text = sections.enter[section]
+            headerLabel.text = finalArrayEnter[section].dayOnSection
         }else{
-            headerLabel.text = sections.exit[section]
+            headerLabel.text = finalArrayLeave[section].dayOnSection
         }
         headerLabel.sizeToFit()
         headerView.addSubview(headerLabel)
@@ -127,9 +138,11 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
         if tableView.restorationIdentifier == "enter"{
 //            cell.setFireman(fireman: model!.logEnter[indexPath.row])
             cell.status.text = "進入"
-            let e = makeSectionCell(logSectionCase: .enter)
+//            let e = makeSectionCell(logSectionCase: .enter)
+//            cell.setFireman(fireman: e[indexPath.section].man[indexPath.row])
             
-            cell.setFireman(fireman: e[indexPath.section].man[indexPath.row])
+            // TODO: setFireman 有點耗資源的感覺
+            cell.setFireman(fireman: finalArrayEnter[indexPath.section].fireman[indexPath.row])
             // 臨時外觀設定
             // let cellMarginViewHeight = cell.marginView.layer.bounds.height
             cell.marginView.layer.cornerRadius = 5
@@ -140,9 +153,9 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
 //            cell.contentView.layer.borderWidth = 2
 //            cell.contentView.layer.cornerRadius = 15
         }else{
-            
-            let e = makeSectionCell(logSectionCase: .enter)
-            cell.setFireman(fireman: e[indexPath.section].man[indexPath.row])
+            cell.setFiremanOut(fireman: finalArrayLeave[indexPath.section].fireman[indexPath.row])
+//            let e = makeSectionCell(logSectionCase: .enter)
+//            cell.setFireman(fireman: e[indexPath.section].man[indexPath.row])
             cell.status.text = "離開"
             // 臨時外觀設定
 //            let cellMarginViewHeight = cell.marginView.layer.bounds.height
@@ -159,27 +172,7 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
     // 需要計算出有幾天->才知道有幾個section header
     // 計算log裡面總共有哪些日期
     
-    /// 工具: 時間戳轉成純文字
-    ///
-    /// - Parameters:
-    ///   - timestamp: 時間戳
-    ///   - theDateFormat: "YY-MM-dd" 之類的格式
-    /// - Returns: "YY-MM-dd"之類的字串
-    func timeStampToString(timestamp:Double, theDateFormat:String) -> String{
-        let dateformate = DateFormatter()
-        //Double轉成日期
-        let date = Date(timeIntervalSince1970: timestamp)
-        //由參數設定指定格式
-        dateformate.dateFormat = theDateFormat
-        return dateformate.string(from: date)
-    }
-    
-    // 傳入的string 一定要跟 stringsDateFormat設定的格式一樣
-    func stringToDate(from string:String, stringsDateFormat:String) -> Date{
-        let dateformate = DateFormatter()
-        dateformate.dateFormat = stringsDateFormat
-        return dateformate.date(from: string)!
-    }
+
     
     enum logSectionCase {
         case enter
@@ -251,40 +244,40 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
     
     func makeSectionCell(logSectionCase:logSectionCase) -> Array<(day:String,man:[FiremanForBravoSquad])>{
         // 製作整個 LogTableView 最後輸出的格式 <日：[人人人]>
-        var makeSectionCellEnter:Array<(day:String,man:[FiremanForBravoSquad])>=[]
-        var makeSectionCellExit:Array<(day:String,man:[FiremanForBravoSquad])>=[]
+        var makeSectionCellEnt:Array<(day:String,man:[FiremanForBravoSquad])>=[]
+        var makeSectionCellExi:Array<(day:String,man:[FiremanForBravoSquad])>=[]
         // 依序填入日期
         switch logSectionCase {
         case .enter:
             for entSection in sections.enter{
-                makeSectionCellEnter.append((entSection,[]))
+                makeSectionCellEnt.append((entSection,[]))
                 // 從log裡面撈出日期一樣的填入FFBS
             }
-            print("只有日期的makeSectionCellEnter\(makeSectionCellEnter)")
+            print("只有日期的makeSectionCellEnter\(makeSectionCellEnt)")
             for eachEntlog in model!.logEnter{
                 let d = Double(eachEntlog.timestamp)
                 let date = timeStampToString(timestamp: d!, theDateFormat: "YYYY-MM-dd")
                 // 檢查日期有沒有對上 對上就把人插進去
-                if let index = makeSectionCellEnter.firstIndex(where:{$0.day == date}) {
-                    makeSectionCellEnter[index].man.append(eachEntlog)
+                if let index = makeSectionCellEnt.firstIndex(where:{$0.day == date}) {
+                    makeSectionCellEnt[index].man.append(eachEntlog)
                 }
             }
-            return makeSectionCellEnter
+            return makeSectionCellEnt
         case .exit:
             for entSection in sections.exit{
-                makeSectionCellExit.append((entSection,[]))
+                makeSectionCellExi.append((entSection,[]))
                 // 從log裡面撈出日期一樣的填入FFBS
             }
             for eachEntlog in model!.logLeave{
                 let d = Double(eachEntlog.timestampout)
                 let date = timeStampToString(timestamp: d!, theDateFormat: "YYYY-MM-dd")
-                if let index = makeSectionCellExit.firstIndex(where:{$0.day == date}) {
-                    makeSectionCellExit[index].man.append(eachEntlog)
+                if let index = makeSectionCellExi.firstIndex(where:{$0.day == date}) {
+                    makeSectionCellExi[index].man.append(eachEntlog)
                 }else{
                     print("撤出日期不合")
                 }
             }
-            return makeSectionCellExit
+            return makeSectionCellExi
         }
     }
 }

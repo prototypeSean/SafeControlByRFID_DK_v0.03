@@ -19,6 +19,24 @@ class FirecommandDatabase {
         connectDatabase()
     }
     
+    // TODO: 排序方法還沒寫 要寫給外部控制
+    // 每次進去跟出來的人的 BravoSquad
+    // 由 firemanForLog() 生產
+    var arrayEnter:Array<FiremanForBravoSquad> = []
+    var arrayExit:Array<FiremanForBravoSquad> = []
+    
+    // 整理出進入跟撤離任務的 Day
+    // 由 missionDeployedDay() 生產
+    var entersDaysString:[String] = []
+    var leavesDaysString:[String] = []
+    
+    // log 相關的最後一步
+    var makeSectionCellEnter:Array<FiremanForLog>=[]
+    var makeSectionCellExit:Array<FiremanForLog>=[]
+    
+    
+    
+    
     // delegate 來的 func
     // TODO: 暫時沒用，待修
 //    func getPhotoPath(photoPath: URL) {
@@ -110,24 +128,196 @@ class FirecommandDatabase {
         }
     }
     
-    // 遍歷
-    func allFireman(){
+    
+}
 
-        for item in (try! db.prepare(table_FIREMAN)){
-            print("消防員in table_FIREMAN\n id:\(item[table_FIREMAN_ID])\n,SN:\(item[table_FIREMAN_SN])\n,NAME:\(item[table_FIREMAN_NAME])\n,PhotoPaht:\(item[table_FIREMAN_PHOTO_PATH])\n,CALL SIGN:\(item[table_FIREMAN_CALLSIGN])\n,RFID:\(item[table_FIREMAN_RFIDUUID])\n,DEPARTMENT:\(item[table_FIREMAN_DEPARTMENT]),時間戳進入:\(item[table_FIREMAN_TIMESTAMP]),時間戳出:\(item[table_FIREMAN_TIMESTAMPOUT])")
-        }
-    }
+// 提供給安管系統的簡易版名單
+public struct FiremanForBravoSquad {
+    let name:String
+    let uuid:String
+    let timestamp:String
+    let timestampout:String
+    let image:UIImage
+}
+// 提供給 Log 頁面的struct
+public struct FiremanForLog{
+    let dayOnSection:String
+    let fireman:Array<FiremanForBravoSquad>
+}
+
+
+
+// MARK: 取出最新一筆進入火場時間 (每次滾動都會跑一次這func可能日後會有問題)
+/// 獲取最新一筆進入的時間戳
+///
+/// - Parameter fireman: FiremanForBravoSquad
+/// - Returns: 純文字時間戳
+public func getLatestedTimeStamp(fireman:FiremanForBravoSquad) -> String{
     
+    // 從資料庫取出並轉成陣列
+    let dateStringArray = fireman.timestamp.split(separator: ",")
+//    print("getLatestedTimeStamp!!!!\(dateStringArray)")
+    // 最新的一筆
+    let latestTimeStamp = dateStringArray.last
+    // 純文字轉乘Double = 時間戳 因為本來內容就是時間戳 轉成double就好了
+    let doubleLtestTimeStamp = Double(latestTimeStamp!)!
     
+    // 把最後一筆時間戳轉成時間格式
+    let dateFormater:DateFormatter = DateFormatter()
+    dateFormater.dateFormat = "HH:mm:ss"
+    let dateTimeLabel = Date(timeIntervalSince1970: doubleLtestTimeStamp)
+    let timestampLableText = dateFormater.string(from: dateTimeLabel)
+    return timestampLableText
+}
+
+
+// 已經在removeFireman裡面更新DB 所以取出最後一筆離開火場資料暫時用不到??
+/// 獲取最新一筆離開的時間戳
+///
+/// - Parameter fireman: FiremanForBravoSquad
+/// - Returns: 純文字時間戳
+public func getLatestedTimeStampOut(fireman:FiremanForBravoSquad) -> String{
+    
+    // 從資料庫取出並轉成陣列
+    let dateStringArray = fireman.timestampout.split(separator: ",")
+//    print("getLatestedTimeStampOut!!!!\(dateStringArray)")
+    // 最新的一筆
+    let latestTimeStamp = dateStringArray.last
+    // 純文字轉Double = 時間戳 因為本來內容就是時間戳 轉成double就好了
+    let doubleLtestTimeStamp = Double(latestTimeStamp!)!
+    
+    // 把最後一筆時間戳轉成時間格式
+    let dateFormater:DateFormatter = DateFormatter()
+    dateFormater.dateFormat = "HH:mm:ss"
+    let dateTimeLabel = Date(timeIntervalSince1970: doubleLtestTimeStamp)
+    let timestampLableText = dateFormater.string(from: dateTimeLabel)
+    return timestampLableText
+}
+
+
+// 各種ＡＰＩ寫在這
+extension FirecommandDatabase{
+
     enum logType {
         case enter
         case exit
     }
     
-    func firemanForLog(logType: logType)->Array<FiremanForBravoSquad>{
+    
+    // 製作 FireManForLog Struct的 dayOnSection欄位
+    // 任務日期 分進入跟離開（嗶嗶進入跟撤離任務的Day）
+    func missionDeployedDay(){
+        
+        // 先清空
+        entersDaysString = []
+        leavesDaysString = []
+        
+        var entersSection:Array<String> = []
+        var leavesSection:Array<String> = []
 
-        var arrayEnter:Array<FiremanForBravoSquad> = []
-        var arrayExit:Array<FiremanForBravoSquad> = []
+        for ffbs in arrayEnter{
+            // 逐個把時間戳轉成日期->找出有幾天
+            let tpIn = Double(ffbs.timestamp)!
+            let dateInString = timeStampToString(timestamp: tpIn, theDateFormat: "YYYY-MM-dd")
+            //  print("\(ffbs.name) 的 進入年月日 \(dateInString)")
+            entersSection.append(dateInString)
+        }
+        // logLeave 已經是只有“離開”時間戳的bravoSquad了
+        for ffbs in arrayExit{
+            let tpOut = Double(ffbs.timestampout)!
+            let dateInString = timeStampToString(timestamp: tpOut, theDateFormat: "YYYY-MM-dd")
+            // print("\(ffbs.name) 的 進入年月日 \(dateInString)")
+            leavesSection.append(dateInString)
+        }
+        
+        // 用純文字的陣列來移除重複日期 NSOrderedSet 比起set 多了會保留原本順序的特性(而且比較快？)
+        entersSection = Array(NSOrderedSet(array: entersSection)) as! Array<String>
+        leavesSection = Array(NSOrderedSet(array: leavesSection)) as! Array<String>
+        
+        // 把剩下的陣列存回date型態 等下要用來依日期重新排序
+        var convertedArrayIn: [Date] = []
+        var convertedArrayOut: [Date] = []
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "YYYY-MM-dd"
+        
+        for d in entersSection {
+            let date = dateFormatter2.date(from: d)
+            if let date = date {
+                convertedArrayIn.append(date)
+            }
+        }
+        for d in leavesSection {
+            let date = dateFormatter2.date(from: d)
+            if let date = date {
+                convertedArrayOut.append(date)
+            }
+        }
+        // 照日期降序排 這也能拿來用其實 只是型態不是字串
+        let resultIn = convertedArrayIn.sorted(by: { $0.compare($1) == .orderedDescending })
+        let resultOut = convertedArrayOut.sorted(by: { $0.compare($1) == .orderedDescending })
+        
+        // 最後一個for了..轉成字串
+        for rin in resultIn{
+            self.entersDaysString.append(dateFormatter2.string(from: rin))
+        }
+        for rOut in resultOut{
+            self.leavesDaysString.append(dateFormatter2.string(from: rOut))
+        }
+        
+        // print("全部的進入日期 \(entersSectionString)\n全部的撤離日期 \(leavesSectionString)\n")
+//        return (entersSectionString,leavesSectionString)
+    }
+    
+    func allFireman(){
+        for item in (try! db.prepare(table_FIREMAN)){
+            print("消防員in table_FIREMAN\n id:\(item[table_FIREMAN_ID])\n,SN:\(item[table_FIREMAN_SN])\n,NAME:\(item[table_FIREMAN_NAME])\n,PhotoPaht:\(item[table_FIREMAN_PHOTO_PATH])\n,CALL SIGN:\(item[table_FIREMAN_CALLSIGN])\n,RFID:\(item[table_FIREMAN_RFIDUUID])\n,DEPARTMENT:\(item[table_FIREMAN_DEPARTMENT]),時間戳進入:\(item[table_FIREMAN_TIMESTAMP]),時間戳出:\(item[table_FIREMAN_TIMESTAMPOUT])")
+        }
+    }
+    
+    // 專門為log頁面撈資料用的 吐出的一組struct就是section跟裡面的cell
+    func allfiremanForLogPage(){
+        // 要先產出進去跟出來的日期才能做 TableView Section
+        makeSectionCellEnter = []
+        makeSectionCellExit = []
+        
+        firemanForLog()
+        missionDeployedDay()
+        print("執行 allfiremanForLog")
+
+        
+        // 基本上就是把兩個陣列再整理成表格的型態，因為時間戳格式不同要多一次轉換
+        for d in entersDaysString{
+            var mansInADay:Array<FiremanForBravoSquad>=[]
+            for m in arrayEnter{
+                if timeStampToString(timestamp: Double(m.timestamp)!, theDateFormat: "YYYY-MM-dd") == d{
+                    print("插入同日期\(d)")
+                    mansInADay.append(m)
+                }
+            }
+            makeSectionCellEnter.append(FiremanForLog(dayOnSection: d, fireman: mansInADay))
+        }
+        
+        for d2 in leavesDaysString{
+            var mansInADay:Array<FiremanForBravoSquad>=[]
+            for m in arrayExit{
+                if timeStampToString(timestamp: Double(m.timestampout)!, theDateFormat: "YYYY-MM-dd") == d2{
+                    mansInADay.append(m)
+                }
+            }
+            makeSectionCellExit.append(FiremanForLog(dayOnSection: d2, fireman: mansInADay))
+        }
+        print("新版ＬＯＧ頁面清單:\n進：-- \(makeSectionCellEnter)\n出：--\(makeSectionCellExit)")
+    }
+    
+
+    
+    // TODO: 沒資料庫狀態觸發會閃退
+    // 要吐出兩種log 進去跟出來的(存在變數裡面比較省運算)
+    func firemanForLog(){
+
+        //先清空
+        self.arrayEnter = []
+        self.arrayExit = []
         
         // fm = fireman row
         for fm in (try! db.prepare(table_FIREMAN)){
@@ -136,7 +326,7 @@ class FirecommandDatabase {
             // 讀取一個fm的照片 讀取失敗就用預設圖
             let imageFromlocalPath = photoManager?.loadImageFromDocumentDirectory(filename: fm[table_FIREMAN_RFIDUUID]) ?? UIImage(named: "ImageInApp")!
             
-            // 把人拼成一個 FiremanForBravoSquad 只是這次一個人要有很多個
+            // 把人拼成一個 FiremanForBravoSquad 只是這次每個人都只有一筆，同一個人會有很多次
             // 把兩種時間戳做成矩陣
             let timeInArray = fm[table_FIREMAN_TIMESTAMP].split(separator: ",")
             let timeOutArray = fm[table_FIREMAN_TIMESTAMPOUT].split(separator: ",")
@@ -152,6 +342,7 @@ class FirecommandDatabase {
                     image: imageFromlocalPath)
                 arrayEnter.append(oneFiremanEachEnterLog)
             }
+            print("arrayEnter!! \(arrayEnter)")
             
             for one in timeOutArray{
                 let oneFiremanEachExitLog = FiremanForBravoSquad(
@@ -162,14 +353,14 @@ class FirecommandDatabase {
                     image: imageFromlocalPath)
                 arrayExit.append(oneFiremanEachExitLog)
             }
-
+            
         }
-        switch logType{
-            case .enter:
-                return arrayEnter
-            case .exit:
-                return arrayExit
-        }
+//        switch logType{
+//        case .enter:
+//            return arrayEnter
+//        case .exit:
+//            return arrayExit
+//        }
     }
     
     // MARK : 更新時間戳（進入火場）
@@ -177,7 +368,7 @@ class FirecommandDatabase {
     func readFiremanForBravoSquadaTime(by uuid:String) -> String{
         var currentTimeStamp = ""
         for fm in try! db.prepare(table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)){
-//            print("讀取更新前資料庫中的時間戳\(fm[table_FIREMAN_TIMESTAMP])")
+            //            print("讀取更新前資料庫中的時間戳\(fm[table_FIREMAN_TIMESTAMP])")
             currentTimeStamp.append(fm[table_FIREMAN_TIMESTAMP])
         }
         return currentTimeStamp
@@ -191,12 +382,12 @@ class FirecommandDatabase {
         print("嗶嗶時間戳\(currentTimeStamp)")
         // 取出消防員的時間戳欄位準備更新
         var timeStampUpdate = readFiremanForBravoSquadaTime(by: uuid)
-//        print("更新前資料庫時間戳\(timeStampUpdate)")
+        //        print("更新前資料庫時間戳\(timeStampUpdate)")
         // 把時間戳轉成 data-> 再轉成 String 才能存入
         let currenttimeStampString = String(currentTimeStamp)
         print("轉成文字的嗶嗶時間戳\(currenttimeStampString)")
         timeStampUpdate.append(contentsOf: "\(currenttimeStampString),")
-//        print("DB更新之後的時間戳：\(timeStampUpdate)")
+        //        print("DB更新之後的時間戳：\(timeStampUpdate)")
         print("要更新的隊員\(fireman[table_FIREMAN_NAME])")
         do{
             let updatedRows = try db.run(fireman.update(table_FIREMAN_TIMESTAMP <- timeStampUpdate))
@@ -211,7 +402,7 @@ class FirecommandDatabase {
     }
     
     //MARK: 更新時間戳（離開火場）(這邊很蠢 其實可以合併為一組func但是沒時間了先這樣複製大法)
-    // 用uuid抓出特定的消防員時間戳欄位
+    // 用uuid抓出特定的消防員時間戳欄位(會抓到此人全部時間戳)
     func readFiremanForBravoSquadaTimeOut(by uuid:String) -> String{
         var currentTimeStamp = ""
         for fm in try! db.prepare(table_FIREMAN.filter(table_FIREMAN_RFIDUUID == uuid)){
@@ -245,7 +436,7 @@ class FirecommandDatabase {
         }
     }
     
-
+    
     // 用 RFIDUUID 來找從資料庫撈安管頁面需要的部分消防員資料
     func getFiremanforBravoSquad(by uuid:String) -> FiremanForBravoSquad?{
         do{
@@ -257,7 +448,7 @@ class FirecommandDatabase {
             for fm in try db.prepare(fireman.where(table_FIREMAN_RFIDUUID == uuid)){
                 photoManager = PhotoManager()
                 let imageFromlocalPath = photoManager?.loadImageFromDocumentDirectory(filename: fm[table_FIREMAN_RFIDUUID]) ?? UIImage(named: "ImageInApp")!
-//            print("取出的BravoSquad人員:\(fm[table_FIREMAN_NAME]),\nRFID:\(fm[table_FIREMAN_RFIDUUID]),\n時間戳:\(fm[table_FIREMAN_TIMESTAMP]),\n照片路徑:\(fm[table_FIREMAN_PHOTO_PATH]),")
+                //            print("取出的BravoSquad人員:\(fm[table_FIREMAN_NAME]),\nRFID:\(fm[table_FIREMAN_RFIDUUID]),\n時間戳:\(fm[table_FIREMAN_TIMESTAMP]),\n照片路徑:\(fm[table_FIREMAN_PHOTO_PATH]),")
                 
                 return FiremanForBravoSquad(name: fm[table_FIREMAN_NAME], uuid: fm[table_FIREMAN_RFIDUUID], timestamp: fm[table_FIREMAN_TIMESTAMP], timestampout: fm[table_FIREMAN_TIMESTAMPOUT], image: imageFromlocalPath)
             }
@@ -267,60 +458,4 @@ class FirecommandDatabase {
         return nil
     }
     
-}
-
-// 提供給安管系統的簡易版名單
-public struct FiremanForBravoSquad {
-    let name:String
-    let uuid:String
-    let timestamp:String
-    let timestampout:String
-    let image:UIImage
-}
-
-// MARK: 取出最新一筆進入火場時間 (每次滾動都會跑一次這func可能日後會有問題)
-/// 獲取最新一筆進入的時間戳
-///
-/// - Parameter fireman: FiremanForBravoSquad
-/// - Returns: 純文字時間戳
-public func getLatestedTimeStamp(fireman:FiremanForBravoSquad) -> String{
-    
-    // 從資料庫取出並轉成陣列
-    let dateStringArray = fireman.timestamp.split(separator: ",")
-//    print("getLatestedTimeStamp!!!!\(dateStringArray)")
-    // 最新的一筆
-    let latestTimeStamp = dateStringArray.last
-    // 純文字轉乘Double = 時間戳 因為本來內容就是時間戳 轉成double就好了
-    let doubleLtestTimeStamp = Double(latestTimeStamp!)!
-    
-    // 把最後一筆時間戳轉成時間格式
-    let dateFormater:DateFormatter = DateFormatter()
-    dateFormater.dateFormat = "HH:mm:ss"
-    let dateTimeLabel = Date(timeIntervalSince1970: doubleLtestTimeStamp)
-    let timestampLableText = dateFormater.string(from: dateTimeLabel)
-    return timestampLableText
-}
-
-// 已經在removeFireman裡面更新DB 所以取出最後一筆離開火場資料暫時用不到??
-
-/// 獲取最新一筆離開的時間戳
-///
-/// - Parameter fireman: FiremanForBravoSquad
-/// - Returns: 純文字時間戳
-public func getLatestedTimeStampOut(fireman:FiremanForBravoSquad) -> String{
-    
-    // 從資料庫取出並轉成陣列
-    let dateStringArray = fireman.timestampout.split(separator: ",")
-//    print("getLatestedTimeStampOut!!!!\(dateStringArray)")
-    // 最新的一筆
-    let latestTimeStamp = dateStringArray.last
-    // 純文字轉Double = 時間戳 因為本來內容就是時間戳 轉成double就好了
-    let doubleLtestTimeStamp = Double(latestTimeStamp!)!
-    
-    // 把最後一筆時間戳轉成時間格式
-    let dateFormater:DateFormatter = DateFormatter()
-    dateFormater.dateFormat = "HH:mm:ss"
-    let dateTimeLabel = Date(timeIntervalSince1970: doubleLtestTimeStamp)
-    let timestampLableText = dateFormater.string(from: dateTimeLabel)
-    return timestampLableText
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		191EA8F72338C4C9004C3429 /* UIViewsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EA8F62338C4C9004C3429 /* UIViewsTool.swift */; };
+		191EA8F92339B733004C3429 /* MainTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EA8F82339B733004C3429 /* MainTools.swift */; };
 		191EBB97231D0DD90040D1BE /* AddNewFiremanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB96231D0DD90040D1BE /* AddNewFiremanViewController.swift */; };
 		191EBB9A231DF9310040D1BE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB99231DF9310040D1BE /* ImagePicker.swift */; };
 		191EBB9C231E0E7A0040D1BE /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		191EA8F62338C4C9004C3429 /* UIViewsTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewsTool.swift; sourceTree = "<group>"; };
+		191EA8F82339B733004C3429 /* MainTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTools.swift; sourceTree = "<group>"; };
 		191EBB96231D0DD90040D1BE /* AddNewFiremanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewFiremanViewController.swift; sourceTree = "<group>"; };
 		191EBB99231DF9310040D1BE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				191EBB99231DF9310040D1BE /* ImagePicker.swift */,
 				191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */,
 				191EA8F62338C4C9004C3429 /* UIViewsTool.swift */,
+				191EA8F82339B733004C3429 /* MainTools.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				19F7C864232A151A005F1167 /* Ntag21x.m in Sources */,
 				19F7C824232A0F8A005F1167 /* Iso14443bCard.m in Sources */,
 				19F7C86F232CC7AC005F1167 /* SafeControlLogTableViewCell.swift in Sources */,
+				191EA8F92339B733004C3429 /* MainTools.swift in Sources */,
 				19F7C86E232CC7AC005F1167 /* SafeControlLogPageViewController.swift in Sources */,
 				192008AE23209AE700BF4179 /* FiremanCollectionViewCell.swift in Sources */,
 				19F7C823232A0F8A005F1167 /* Ultralight.m in Sources */,
