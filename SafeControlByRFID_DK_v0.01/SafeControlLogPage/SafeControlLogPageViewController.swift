@@ -14,6 +14,10 @@ class SafeControlLogPageViewController:UIViewController{
     @IBOutlet weak var safeControlLeaveLogTableView: UITableView!
     private var model:SafeControlModel?
     
+    var sections:(enter:[String],exit:[String])=([],[])
+    
+    
+    
     @IBAction func reload(_ sender: UIBarButtonItem) {
         countSections()
         makeSectionCell(logSectionCase: .enter)
@@ -28,6 +32,8 @@ class SafeControlLogPageViewController:UIViewController{
         safeControlLeaveLogTableView.delegate = self
         safeControlLeaveLogTableView.dataSource = self
         safeControlLeaveLogTableView.restorationIdentifier = "leave"
+        
+        sections = countSections()
     }
     
     // 邪門的delegate用法在這
@@ -39,10 +45,11 @@ class SafeControlLogPageViewController:UIViewController{
 
 extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataSource{
     
+    // 計算每個section有多少行
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.restorationIdentifier == "enter"{
 //            print("model?.logEnter\(String(describing: model?.logEnter))")
-            print("計算每個區域有多少row-- in\(self.makeSectionCell(logSectionCase: .enter)[section].man.count)")
+            print("計算每個區域有多少row-- in\(section) = \(self.makeSectionCell(logSectionCase: .enter)[section].man.count)")
             return self.makeSectionCell(logSectionCase: .enter)[section].man.count
 //            return model?.logEnter.count ?? 0
         }
@@ -54,27 +61,66 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView.restorationIdentifier == "enter"{
-            let ee = countSections().enter
-            print("進入表格有幾區\(ee.count)")
-            return ee.count
+//            let ee = countSections().enter
+//            print("進入表格有幾區\(ee.count)")
+            return sections.enter.count
         }
         else{
-            let ee = countSections().exit
-            print("撤離表格有幾區\(ee.count)")
-            return ee.count
+//            let ee = countSections().exit
+//            print("撤離表格有幾區\(ee.count)")
+//            return ee.count
+            return sections.exit.count
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let view = UIView()
+//        view.backgroundColor = UIColor.clear
+//        let viewLabel = UILabel(frame: CGRect(x: 0, y: 0, width:
+//            tableView.bounds.size.width, height: tableView.bounds.size.height))
+//        viewLabel.sizeToFit()
+//        if tableView.restorationIdentifier == "enter"{
+//            viewLabel.text = sections.enter[section]
+//        }else{
+//            viewLabel.text = sections.exit[section]
+//        }
+//        viewLabel.textColor = UIColor.white
+//        view.addSubview(viewLabel)
+//        return view
+        let headerView = UIView()
+        headerView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.1001712329)
+//        headerView.layer.borderWidth = 1
+//        headerView.addBorderBottom(size: 1.0, color: UIColor.red)
+        
+        
+        let headerLabel = UILabel(frame: CGRect(x: 30, y: 5, width:
+            tableView.bounds.size.width, height: tableView.bounds.size.height))
+        
+        headerLabel.textColor = UIColor.white
+//        headerLabel.addBorderBottom(size: 2.0, color: UIColor.white)
+        if tableView.restorationIdentifier == "enter"{
+            headerLabel.text = sections.enter[section]
+        }else{
+            headerLabel.text = sections.exit[section]
+        }
+        headerLabel.sizeToFit()
+        headerView.addSubview(headerLabel)
+        
+        return headerView
         
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if tableView.restorationIdentifier == "enter"{
-            let entSectionTitle = countSections().enter[section]
-            return entSectionTitle
-        }else{
-            return countSections().exit[section]
-        }
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if tableView.restorationIdentifier == "enter"{
+//            let entSectionTitle = sections.enter[section]
+//            return entSectionTitle
+//        }else{
+//            return sections.exit[section]
+//        }
+//    }
     
+    
+    // 具體定義每個cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SafeControlLogTableViewCell", for: indexPath) as! SafeControlLogTableViewCell
         
@@ -84,10 +130,6 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
             let e = makeSectionCell(logSectionCase: .enter)
             
             cell.setFireman(fireman: e[indexPath.section].man[indexPath.row])
-
-//            cell.timestamp.text = e[indexPath.section].day
-            
-            
             // 臨時外觀設定
             // let cellMarginViewHeight = cell.marginView.layer.bounds.height
             cell.marginView.layer.cornerRadius = 5
@@ -98,7 +140,9 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
 //            cell.contentView.layer.borderWidth = 2
 //            cell.contentView.layer.cornerRadius = 15
         }else{
-            cell.setFiremanOut(fireman: model!.logLeave[indexPath.row])
+            
+            let e = makeSectionCell(logSectionCase: .enter)
+            cell.setFireman(fireman: e[indexPath.section].man[indexPath.row])
             cell.status.text = "離開"
             // 臨時外觀設定
 //            let cellMarginViewHeight = cell.marginView.layer.bounds.height
@@ -200,8 +244,7 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
         for rOut in resultOut{
             leavesSectionString.append(dateFormatter2.string(from: rOut))
         }
-        
-        
+
 //        print("全部的進入日期 \(entersSectionString)\n全部的撤離日期 \(leavesSectionString)\n")
         return (entersSectionString,leavesSectionString)
     }
@@ -213,34 +256,32 @@ extension SafeControlLogPageViewController:UITableViewDelegate, UITableViewDataS
         // 依序填入日期
         switch logSectionCase {
         case .enter:
-            for entSection in countSections().enter{
+            for entSection in sections.enter{
                 makeSectionCellEnter.append((entSection,[]))
                 // 從log裡面撈出日期一樣的填入FFBS
-                for eachEntlog in model!.logEnter{
-                    let d = Double(eachEntlog.timestamp)
-                    let date = timeStampToString(timestamp: d!, theDateFormat: "YYYY-MM-dd")
-//                    print("eachEntlogDay\(date)")
-                    if let index = makeSectionCellEnter.firstIndex(where:{$0.day == date}) {
-                        makeSectionCellEnter[index].man.append(eachEntlog)
-                    }else{
-//                        print("進入日期不合")
-                    }
+            }
+            print("只有日期的makeSectionCellEnter\(makeSectionCellEnter)")
+            for eachEntlog in model!.logEnter{
+                let d = Double(eachEntlog.timestamp)
+                let date = timeStampToString(timestamp: d!, theDateFormat: "YYYY-MM-dd")
+                // 檢查日期有沒有對上 對上就把人插進去
+                if let index = makeSectionCellEnter.firstIndex(where:{$0.day == date}) {
+                    makeSectionCellEnter[index].man.append(eachEntlog)
                 }
             }
             return makeSectionCellEnter
         case .exit:
-            for entSection in countSections().exit{
+            for entSection in sections.exit{
                 makeSectionCellExit.append((entSection,[]))
                 // 從log裡面撈出日期一樣的填入FFBS
-                for eachEntlog in model!.logEnter{
-                    let d = Double(eachEntlog.timestamp)
-                    let date = timeStampToString(timestamp: d!, theDateFormat: "YYYY-MM-dd")
-                    print("eachEntlogDay\(date)")
-                    if let index = makeSectionCellExit.firstIndex(where:{$0.day == date}) {
-                        makeSectionCellExit[index].man.append(eachEntlog)
-                    }else{
-                        print("撤出日期不合")
-                    }
+            }
+            for eachEntlog in model!.logLeave{
+                let d = Double(eachEntlog.timestampout)
+                let date = timeStampToString(timestamp: d!, theDateFormat: "YYYY-MM-dd")
+                if let index = makeSectionCellExit.firstIndex(where:{$0.day == date}) {
+                    makeSectionCellExit[index].man.append(eachEntlog)
+                }else{
+                    print("撤出日期不合")
                 }
             }
             return makeSectionCellExit

@@ -125,9 +125,7 @@ class FirecommandDatabase {
     }
     
     func firemanForLog(logType: logType)->Array<FiremanForBravoSquad>{
-//        var firemanArrayForLog:Array<FiremanForBravoSquad> = []
-        
-        
+
         var arrayEnter:Array<FiremanForBravoSquad> = []
         var arrayExit:Array<FiremanForBravoSquad> = []
         

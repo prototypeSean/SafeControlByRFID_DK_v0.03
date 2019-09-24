@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		191EA8F72338C4C9004C3429 /* UIViewsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EA8F62338C4C9004C3429 /* UIViewsTool.swift */; };
 		191EBB97231D0DD90040D1BE /* AddNewFiremanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB96231D0DD90040D1BE /* AddNewFiremanViewController.swift */; };
 		191EBB9A231DF9310040D1BE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB99231DF9310040D1BE /* ImagePicker.swift */; };
 		191EBB9C231E0E7A0040D1BE /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		191EA8F62338C4C9004C3429 /* UIViewsTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewsTool.swift; sourceTree = "<group>"; };
 		191EBB96231D0DD90040D1BE /* AddNewFiremanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewFiremanViewController.swift; sourceTree = "<group>"; };
 		191EBB99231DF9310040D1BE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			children = (
 				191EBB99231DF9310040D1BE /* ImagePicker.swift */,
 				191EBB9B231E0E7A0040D1BE /* PhotoManager.swift */,
+				191EA8F62338C4C9004C3429 /* UIViewsTool.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				19F7C821232A0F8A005F1167 /* CpuCard.m in Sources */,
 				192008AD23209AE700BF4179 /* BarLeftView.swift in Sources */,
 				19F7C868232A151A005F1167 /* CpuCard.m in Sources */,
+				191EA8F72338C4C9004C3429 /* UIViewsTool.swift in Sources */,
 				19F7C863232A151A005F1167 /* Iso15693Card.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,7 +579,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -630,7 +634,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
