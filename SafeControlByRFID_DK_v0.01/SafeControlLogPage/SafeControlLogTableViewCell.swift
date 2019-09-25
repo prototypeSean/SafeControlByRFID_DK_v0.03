@@ -1,11 +1,3 @@
-//
-//  SafeControllLogTableViewCell.swift
-//  safe_control_by_RFID
-//
-//  Created by elijah tam on 2019/8/18.
-//  Copyright © 2019 elijah tam. All rights reserved.
-//
-
 import Foundation
 import UIKit
 

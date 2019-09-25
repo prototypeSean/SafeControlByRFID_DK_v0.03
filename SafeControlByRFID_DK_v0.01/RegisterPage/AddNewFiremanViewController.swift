@@ -43,6 +43,7 @@ class AddNewFiremanViewController: UIViewController {
     
     // 暫時區
     @IBAction func testingLog(_ sender: UIButton) {
+        self.fireManRFID.text?.removeAll()
         print(fireCommandDB?.arrayEnter as Any)
         print(fireCommandDB?.arrayExit as Any)
     }
@@ -59,9 +60,9 @@ class AddNewFiremanViewController: UIViewController {
             (_) in self.addCurrentFireMan()
             self.firemanAvatar.image = UIImage(named: "ImagePlaceholder")
             self.firemanCallSign.text = ""
-            self.firemanCallSign.text = ""
+            self.serialNumber.text = ""
             self.fireManName.text = ""
-            self.fireManRFID.text = ""
+            self.fireManRFID.text = "請感應卡片"
             self.firemanDepartment.text = ""
         }
         let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
